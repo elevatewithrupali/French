@@ -1,592 +1,1175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>French C1 — 40 Day Mission</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>French C1 — 40 Day Mission</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080810;--s1:#0e0e1a;--s2:#141428;--s3:#1c1c35;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#f0eeff;--dim:#8b88aa;--muted:#4a4860;
+  --gold:#f5c842;--gold2:#c49a1e;--gold-bg:rgba(245,200,66,0.08);
+  --blue:#5b8df5;--purple:#9b6bff;--green:#3dd68c;--red:#f55b5b;--pink:#f55bb8;--teal:#3dd6c8;
+  --ph1:#f5c842;--ph2:#5b8df5;--ph3:#9b6bff;--ph4:#f55b5b;
+  --mono:'IBM Plex Mono',monospace;--display:'Syne',sans-serif;--body:'Inter',sans-serif;
+  --sw:240px;--r:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);display:flex;min-height:100vh;overflow-x:hidden}
+
+/* ===SCROLLBAR=== */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--s1)}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+
+/* ===SIDEBAR=== */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sw);
+  background:var(--s1);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:200;overflow:hidden;
+}
+.sidebar::before{
+  content:'';position:absolute;top:-60px;right:-40px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(245,200,66,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.logo{
+  padding:24px 20px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.logo-mark{
+  width:38px;height:38px;background:var(--gold);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:15px;color:#000;letter-spacing:-0.5px;
+  flex-shrink:0;box-shadow:0 0 20px rgba(245,200,66,0.3);
+}
+.logo-name{font-family:var(--display);font-weight:700;font-size:0.95rem;line-height:1.2}
+.logo-sub{font-family:var(--mono);font-size:0.6rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+
+.nav{flex:1;padding:12px 10px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.nav-section{font-family:var(--mono);font-size:0.58rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:10px 10px 6px;margin-top:4px}
+.nav a{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;
+  color:var(--dim);text-decoration:none;font-size:0.82rem;font-family:var(--body);
+  border-radius:var(--r);transition:all 0.15s;border:1px solid transparent;
+}
+.nav a:hover{color:var(--text);background:var(--s2)}
+.nav a.active{color:var(--gold);background:var(--gold-bg);border-color:rgba(245,200,66,0.15)}
+.nav-ic{width:16px;text-align:center;font-size:0.75rem;opacity:0.7;flex-shrink:0}
+
+.sidebar-foot{
+  padding:16px 20px;border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:6px;
+}
+.ph-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 10px;border-radius:4px;width:fit-content;
+}
+.ph-badge.ph1{background:rgba(245,200,66,0.12);color:var(--ph1);border:1px solid rgba(245,200,66,0.2)}
+.ph-badge.ph2{background:rgba(91,141,245,0.12);color:var(--ph2);border:1px solid rgba(91,141,245,0.2)}
+.ph-badge.ph3{background:rgba(155,107,255,0.12);color:var(--ph3);border:1px solid rgba(155,107,255,0.2)}
+.ph-badge.ph4{background:rgba(245,91,91,0.12);color:var(--ph4);border:1px solid rgba(245,91,91,0.2)}
+.day-counter{font-family:var(--mono);font-size:0.72rem;color:var(--muted)}
+.day-counter span{color:var(--text)}
+
+/* ===MAIN=== */
+.main{margin-left:var(--sw);flex:1;min-height:100vh;position:relative}
+.page{display:none;padding:36px 40px 60px;animation:fadeUp 0.2s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===PAGE HEADER=== */
+.ph{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.ph-eyebrow{font-family:var(--mono);font-size:0.62rem;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.ph-title{font-family:var(--display);font-size:2.6rem;font-weight:800;letter-spacing:-1px;line-height:1}
+.ph-title span{color:var(--gold)}
+
+/* ===BUTTONS=== */
+.btn{
+  padding:10px 22px;border:none;border-radius:var(--r);cursor:pointer;
+  font-family:var(--mono);font-size:0.72rem;letter-spacing:0.5px;font-weight:500;
+  transition:all 0.15s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-gold{background:var(--gold);color:#000;box-shadow:0 4px 20px rgba(245,200,66,0.25)}
+.btn-gold:hover{background:#ffd84d;transform:translateY(-1px);box-shadow:0 6px 24px rgba(245,200,66,0.35)}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid rgba(245,200,66,0.3)}
+.btn-outline:hover{background:var(--gold-bg)}
+
+/* ===CARDS=== */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.card-head{font-family:var(--display);font-size:1rem;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.card-head-ic{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.7rem}
+
+/* ===STAT CARDS=== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{
+  background:var(--s1);border:1px solid var(--border);border-radius:12px;
+  padding:20px 20px 16px;position:relative;overflow:hidden;
+}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent-clr,var(--gold)),transparent);opacity:0.6}
+.stat-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.stat-val{font-family:var(--display);font-size:2.4rem;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-sub{font-family:var(--mono);font-size:0.62rem;color:var(--muted)}
+.stat.s-gold .stat-val{color:var(--gold)} .stat.s-gold{--accent-clr:var(--gold)}
+.stat.s-blue .stat-val{color:var(--blue)} .stat.s-blue{--accent-clr:var(--blue)}
+.stat.s-purple .stat-val{color:var(--purple)} .stat.s-purple{--accent-clr:var(--purple)}
+.stat.s-green .stat-val{color:var(--green)} .stat.s-green{--accent-clr:var(--green)}
+
+/* ===PROGRESS BAR=== */
+.pbar-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:24px}
+.pbar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pbar-lbl{font-family:var(--mono);font-size:0.68rem;color:var(--dim)}
+.pbar-pct{font-family:var(--display);font-size:1.4rem;font-weight:800;color:var(--gold)}
+.pbar-track{height:8px;background:var(--s3);border-radius:4px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:4px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1)}
+
+/* ===TWO COL=== */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+
+/* ===CALENDAR=== */
+.cal-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.cal-day{
+  aspect-ratio:1;border-radius:8px;border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:default;font-family:var(--mono);position:relative;overflow:hidden;
+  transition:all 0.15s;
+}
+.cal-day .dn{font-size:0.72rem;font-weight:500;line-height:1}
+.cal-day .dp{font-size:0.52rem;color:var(--muted);margin-top:2px}
+.cal-day.p1{border-left:2px solid var(--ph1)}
+.cal-day.p2{border-left:2px solid var(--ph2)}
+.cal-day.p3{border-left:2px solid var(--ph3)}
+.cal-day.p4{border-left:2px solid var(--ph4)}
+.cal-day.done{background:rgba(61,214,140,0.08);border-color:rgba(61,214,140,0.25);color:var(--green)}
+.cal-day.done .dp{color:var(--green);opacity:0.6}
+.cal-day.today{border-color:var(--gold)!important;background:rgba(245,200,66,0.08);color:var(--gold)}
+.cal-day.today .dp{color:var(--gold);opacity:0.7}
+
+/* ===PHASE TIMELINE=== */
+.timeline{display:flex;flex-direction:column;gap:12px}
+.tl-item{
+  display:flex;gap:14px;padding:14px;border-radius:10px;
+  border:1px solid transparent;transition:all 0.2s;
+}
+.tl-item.active{border-color:rgba(245,200,66,0.2);background:rgba(245,200,66,0.05)}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;margin-top:4px;transition:all 0.2s}
+.tl-item.active .tl-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(245,200,66,0.5)}
+.tl-body strong{font-size:0.83rem;display:block;margin-bottom:3px}
+.tl-body p{font-size:0.74rem;color:var(--dim);line-height:1.4}
+
+/* ===TODAY SCHEDULE=== */
+.today-sched{display:flex;flex-direction:column;gap:8px}
+.ts-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;background:var(--s2);border-radius:8px;
+  border-left:3px solid var(--border2);
+}
+.ts-item.r{border-left-color:var(--teal)} .ts-item.w{border-left-color:var(--gold)}
+.ts-item.l{border-left-color:var(--blue)} .ts-item.s{border-left-color:var(--pink)}
+.ts-item.g{border-left-color:var(--purple)} .ts-item.e{border-left-color:var(--red)}
+.ts-item.v{border-left-color:var(--green)}
+.ts-time{font-family:var(--mono);font-size:0.62rem;color:var(--muted);min-width:90px;flex-shrink:0}
+.ts-name{font-size:0.8rem;flex:1}
+.ts-tag{
+  font-family:var(--mono);font-size:0.58rem;text-transform:uppercase;letter-spacing:0.5px;
+  padding:2px 7px;border-radius:3px;flex-shrink:0;
+}
+.tag-r{background:rgba(61,214,200,0.12);color:var(--teal)}
+.tag-w{background:rgba(245,200,66,0.12);color:var(--gold)}
+.tag-l{background:rgba(91,141,245,0.12);color:var(--blue)}
+.tag-s{background:rgba(245,91,184,0.12);color:var(--pink)}
+.tag-g{background:rgba(155,107,255,0.12);color:var(--purple)}
+.tag-e{background:rgba(245,91,91,0.12);color:var(--red)}
+.tag-v{background:rgba(61,214,140,0.12);color:var(--green)}
+
+/* ===SCHEDULE PAGE BLOCKS=== */
+.sched-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.stab{
+  padding:8px 18px;border:1px solid var(--border2);border-radius:6px;
+  background:transparent;color:var(--dim);font-family:var(--mono);font-size:0.7rem;
+  cursor:pointer;transition:all 0.15s;
+}
+.stab.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.stab:hover:not(.active){color:var(--text);border-color:var(--border2)}
+
+.tb{
+  display:flex;gap:16px;padding:16px 20px;
+  background:var(--s1);border:1px solid var(--border);border-radius:10px;
+  margin-bottom:8px;align-items:flex-start;
+}
+.tb-time{font-family:var(--mono);font-size:0.65rem;color:var(--gold);min-width:110px;padding-top:3px;flex-shrink:0}
+.tb-name{font-size:0.85rem;font-weight:500;margin-bottom:4px}
+.tb-desc{font-size:0.74rem;color:var(--dim);line-height:1.5}
+.tb-tag{margin-left:auto;flex-shrink:0}
+
+/* ===RESOURCES=== */
+.res-list{display:flex;flex-direction:column;gap:8px}
+.res-item{
+  display:flex;gap:12px;align-items:flex-start;padding:12px 14px;
+  background:var(--s2);border:1px solid var(--border);border-radius:8px;
+  text-decoration:none;color:var(--text);transition:all 0.15s;
+}
+.res-item:hover{border-color:rgba(245,200,66,0.25);background:var(--gold-bg)}
+.res-ic{color:var(--gold);font-size:0.7rem;margin-top:2px;flex-shrink:0}
+.res-item strong{font-size:0.82rem;display:block;margin-bottom:2px}
+.res-item p{font-size:0.73rem;color:var(--dim)}
+
+/* ===VOCAB CLUSTERS=== */
+.clusters{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cluster{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px}
+.cluster h3{font-family:var(--mono);font-size:0.62rem;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.cluster ul{list-style:none}
+.cluster li{font-size:0.73rem;color:var(--dim);padding:3px 0;border-bottom:1px solid var(--border)}
+.cluster li:last-child{border:none}
+
+/* ===GRAMMAR CHECKLIST=== */
+.gcl{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.gs{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.gs h3{font-family:var(--mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;padding:5px 10px;border-radius:4px}
+.gs.g1 h3{background:rgba(245,200,66,0.1);color:var(--ph1)}
+.gs.g2 h3{background:rgba(91,141,245,0.1);color:var(--ph2)}
+.gs.g3 h3{background:rgba(155,107,255,0.1);color:var(--ph3)}
+.gs.g4 h3{background:rgba(245,91,91,0.1);color:var(--ph4)}
+.gs ul{list-style:none}
+.gs li{font-size:0.75rem;color:var(--dim);padding:5px 0 5px 18px;border-bottom:1px solid var(--border);position:relative}
+.gs li::before{content:'○';position:absolute;left:0;color:var(--muted);font-size:0.65rem;top:5px}
+
+/* ===PROTOCOL=== */
+.proto{list-style:none;counter-reset:s}
+.proto li{counter-increment:s;padding:10px 0 10px 32px;position:relative;font-size:0.78rem;color:var(--dim);border-bottom:1px solid var(--border)}
+.proto li::before{
+  content:counter(s);position:absolute;left:0;top:9px;
+  font-family:var(--mono);font-size:0.62rem;color:var(--gold);
+  background:rgba(245,200,66,0.1);width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;
+}
+
+/* ===FORMAT LIST=== */
+.flist{list-style:none;display:flex;flex-direction:column;gap:6px}
+.flist li{padding:10px 14px;background:var(--s2);border-radius:6px;font-size:0.78rem;color:var(--dim);border-left:3px solid rgba(245,200,66,0.3)}
+.flist li strong{color:var(--text)}
+
+/* ===VOCAB TARGETS=== */
+.vtargets{display:flex;flex-direction:column;gap:8px}
+.vrow{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--s2);border-radius:8px;font-size:0.8rem}
+.vrow span{color:var(--dim);font-family:var(--mono);font-size:0.7rem}
+.vrow.total{border:1px solid rgba(245,200,66,0.2);background:var(--gold-bg)}
+
+/* ===SYLLABUS=== */
+.syl-ph{margin-bottom:28px}
+.syl-ph-hd{
+  font-family:var(--mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:2px;
+  padding:10px 16px;border-radius:8px;margin-bottom:14px;font-weight:500;
+}
+.syl-ph-hd.p1{background:rgba(245,200,66,0.1);color:var(--ph1);border:1px solid rgba(245,200,66,0.18)}
+.syl-ph-hd.p2{background:rgba(91,141,245,0.1);color:var(--ph2);border:1px solid rgba(91,141,245,0.18)}
+.syl-ph-hd.p3{background:rgba(155,107,255,0.1);color:var(--ph3);border:1px solid rgba(155,107,255,0.18)}
+.syl-ph-hd.p4{background:rgba(245,91,91,0.1);color:var(--ph4);border:1px solid rgba(245,91,91,0.18)}
+.syl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.syl-item{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px}
+.syl-item h3{font-size:0.82rem;font-weight:600;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--text)}
+.syl-item ul{list-style:none}
+.syl-item li{font-size:0.73rem;color:var(--dim);padding:4px 0 4px 14px;position:relative;border-bottom:1px solid rgba(30,30,50,0.8)}
+.syl-item li::before{content:'—';position:absolute;left:0;color:var(--muted)}
+
+/* ===CLB TABLE=== */
+.clb-wrap{overflow-x:auto}
+.clb-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.clb-table th{padding:10px 16px;background:var(--s2);color:var(--dim);font-family:var(--mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:1px;text-align:left;border-bottom:1px solid var(--border)}
+.clb-table td{padding:11px 16px;border-bottom:1px solid var(--border);color:var(--dim)}
+.clb-table tr.tgt td{color:var(--text);background:var(--gold-bg)}
+.clb-table tr.tgt td:last-child{color:var(--gold);font-weight:600}
+
+/* ===MINI TEST=== */
+.mt-passage{background:var(--s2);border-left:3px solid var(--gold2);border-radius:8px;padding:16px;font-size:0.8rem;line-height:1.75;color:var(--dim);margin-bottom:16px}
+.mt-q{font-size:0.85rem;font-weight:500;margin-bottom:12px;color:var(--text)}
+.mt-opts{display:flex;flex-direction:column;gap:8px}
+.mt-opt{
+  padding:11px 16px;background:var(--s2);border:1px solid var(--border);border-radius:8px;
+  cursor:pointer;font-size:0.78rem;text-align:left;color:var(--text);transition:all 0.15s;
+}
+.mt-opt:hover:not(:disabled){border-color:rgba(245,200,66,0.3);background:var(--gold-bg)}
+.mt-opt.correct{border-color:var(--green)!important;background:rgba(61,214,140,0.1)!important;color:var(--green)!important}
+.mt-opt.wrong{border-color:var(--red)!important;background:rgba(245,91,91,0.1)!important;color:var(--red)!important}
+.mt-fb{font-size:0.76rem;padding:10px 14px;border-radius:8px;margin-top:8px}
+.mt-fb.ok{background:rgba(61,214,140,0.1);color:var(--green)}
+.mt-fb.no{background:rgba(245,91,91,0.1);color:var(--red)}
+
+/* ===PROMPT / TOPIC CARDS=== */
+.prompt-card{background:var(--s2);border:1px solid rgba(245,200,66,0.2);border-radius:10px;padding:18px;font-size:0.83rem;line-height:1.65;color:var(--text);min-height:90px}
+.prompt-type{font-family:var(--mono);font-size:0.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.topic-card{background:var(--s2);border:1px solid rgba(245,91,184,0.2);border-radius:10px;padding:18px;font-size:0.83rem;line-height:1.65;color:var(--text);min-height:90px}
+.topic-lv{font-family:var(--mono);font-size:0.6rem;color:var(--pink);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+
+/* ===PROGRESS PAGE=== */
+.score-form{display:flex;flex-direction:column;gap:10px}
+.score-form label{font-family:var(--mono);font-size:0.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.score-form input{
+  width:100%;padding:10px 14px;background:var(--s2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-family:var(--mono);font-size:0.85rem;
+  transition:border-color 0.15s;
+}
+.score-form input:focus{outline:none;border-color:rgba(245,200,66,0.4)}
+.score-hist{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.s-entry{background:var(--s2);border-radius:8px;padding:12px 14px}
+.s-entry-day{font-family:var(--mono);font-size:0.62rem;color:var(--gold);margin-bottom:6px}
+.s-pills{display:flex;gap:8px;flex-wrap:wrap}
+.s-pill{padding:2px 8px;border-radius:3px;font-family:var(--mono);font-size:0.65rem;background:var(--s1);border:1px solid var(--border)}
+textarea#daily-notes{
+  width:100%;padding:14px;background:var(--s2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-family:var(--body);font-size:0.82rem;
+  line-height:1.6;resize:vertical;
+}
+textarea#daily-notes:focus{outline:none;border-color:rgba(245,200,66,0.3)}
+.note-entry{background:var(--s2);border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:0.76rem;color:var(--dim);border-left:3px solid var(--border)}
+.note-day{font-family:var(--mono);font-size:0.6rem;color:var(--muted);margin-bottom:4px}
+#radar-canvas{display:block;margin:0 auto}
+
+/* ===DECORATIVE LINES=== */
+.deco-line{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:4px 0}
+</style>
 </head>
 <body>
 
-<div class="grain"></div>
-
 <!-- SIDEBAR -->
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <span class="logo-fr">FR</span>
-    <span class="logo-text">C1 Mission</span>
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">FR</div>
+    <div><div class="logo-name">C1 Mission</div><div class="logo-sub">40 jours</div></div>
   </div>
-  <ul class="nav-links">
-    <li><a href="#" class="nav-link active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</a></li>
-    <li><a href="#" class="nav-link" data-page="syllabus"><span class="nav-icon">◈</span>Syllabus</a></li>
-    <li><a href="#" class="nav-link" data-page="schedule"><span class="nav-icon">◷</span>Schedule</a></li>
-    <li><a href="#" class="nav-link" data-page="vocabulary"><span class="nav-icon">◆</span>Vocabulary</a></li>
-    <li><a href="#" class="nav-link" data-page="grammar"><span class="nav-icon">§</span>Grammar</a></li>
-    <li><a href="#" class="nav-link" data-page="listening"><span class="nav-icon">◎</span>Listening</a></li>
-    <li><a href="#" class="nav-link" data-page="reading"><span class="nav-icon">≡</span>Reading</a></li>
-    <li><a href="#" class="nav-link" data-page="writing"><span class="nav-icon">✎</span>Writing</a></li>
-    <li><a href="#" class="nav-link" data-page="speaking"><span class="nav-icon">◉</span>Speaking</a></li>
-    <li><a href="#" class="nav-link" data-page="exams"><span class="nav-icon">✦</span>Mock Exams</a></li>
-    <li><a href="#" class="nav-link" data-page="progress"><span class="nav-icon">↗</span>Progress</a></li>
-  </ul>
-  <div class="sidebar-footer">
-    <div class="phase-badge" id="current-phase-badge">Phase 1</div>
-    <div class="sidebar-day">Day <span id="sidebar-day-num">1</span> / 40</div>
+  <div class="nav">
+    <div class="nav-section">Overview</div>
+    <a href="#" class="active" data-page="dashboard"><span class="nav-ic">⌘</span>Dashboard</a>
+    <a href="#" data-page="syllabus"><span class="nav-ic">◈</span>Syllabus</a>
+    <a href="#" data-page="schedule"><span class="nav-ic">◷</span>Schedule</a>
+    <div class="nav-section">Skills</div>
+    <a href="#" data-page="vocabulary"><span class="nav-ic">◆</span>Vocabulary</a>
+    <a href="#" data-page="grammar"><span class="nav-ic">§</span>Grammar</a>
+    <a href="#" data-page="listening"><span class="nav-ic">◎</span>Listening</a>
+    <a href="#" data-page="reading"><span class="nav-ic">≡</span>Reading</a>
+    <a href="#" data-page="writing"><span class="nav-ic">✎</span>Writing</a>
+    <a href="#" data-page="speaking"><span class="nav-ic">◉</span>Speaking</a>
+    <div class="nav-section">Practice</div>
+    <a href="#" data-page="exams"><span class="nav-ic">✦</span>Mock Exams</a>
+    <a href="#" data-page="progress"><span class="nav-ic">↗</span>Progress</a>
+  </div>
+  <div class="sidebar-foot">
+    <div class="ph-badge ph1" id="ph-badge">● Phase 1</div>
+    <div class="day-counter">Day <span id="day-num">1</span> / 40</div>
   </div>
 </nav>
 
-<!-- MAIN CONTENT -->
-<main class="main" id="main-content">
+<!-- MAIN -->
+<main class="main">
 
-  <!-- DASHBOARD PAGE -->
-  <div class="page active" id="page-dashboard">
-    <header class="page-header">
-      <div>
-        <p class="page-eyebrow">Bonjour — Let's get to work</p>
-        <h1 class="page-title">Mission Française</h1>
-      </div>
-      <div class="header-meta">
-        <button class="btn-primary" id="advance-day-btn">Mark Today Complete →</button>
-      </div>
-    </header>
-
-    <div class="stats-row">
-      <div class="stat-card accent">
-        <div class="stat-label">Current Day</div>
-        <div class="stat-value" id="stat-day">1</div>
-        <div class="stat-sub">of 40</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Phase</div>
-        <div class="stat-value" id="stat-phase">1</div>
-        <div class="stat-sub" id="stat-phase-label">Foundations</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Hours Invested</div>
-        <div class="stat-value" id="stat-hours">0</div>
-        <div class="stat-sub">of 320 total</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Target</div>
-        <div class="stat-value gold">C1</div>
-        <div class="stat-sub">Floor: B2 / CLB 7</div>
-      </div>
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="ph">
+    <div>
+      <div class="ph-eyebrow">Bonjour — Mission active</div>
+      <div class="ph-title">Mission <span>Française</span></div>
     </div>
+    <button class="btn btn-gold" id="btn-advance">Mark Day Complete →</button>
+  </div>
 
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-label">
-        <span>Overall Mission Progress</span>
-        <span id="progress-pct">0%</span>
-      </div>
-      <div class="progress-bar-track">
-        <div class="progress-bar-fill" id="main-progress-bar" style="width:0%"></div>
-      </div>
+  <div class="stats">
+    <div class="stat s-gold">
+      <div class="stat-lbl">Current Day</div>
+      <div class="stat-val" id="s-day">1</div>
+      <div class="stat-sub">of 40 days</div>
     </div>
-
-    <div class="two-col">
-      <div class="card">
-        <h2 class="card-title">Today's Schedule</h2>
-        <div id="todays-schedule" class="schedule-list"></div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Phase Overview</h2>
-        <div class="phases-timeline">
-          <div class="phase-item" id="ph1">
-            <div class="phase-dot"></div>
-            <div class="phase-info">
-              <strong>Phase 1</strong> — Days 1–4
-              <p>Tenses, core vocabulary, phonics, survival grammar</p>
-            </div>
-          </div>
-          <div class="phase-item" id="ph2">
-            <div class="phase-dot"></div>
-            <div class="phase-info">
-              <strong>Phase 2</strong> — Days 5–14
-              <p>4×2h skill blocks: Reading · Writing · Listening · Speaking</p>
-            </div>
-          </div>
-          <div class="phase-item" id="ph3">
-            <div class="phase-dot"></div>
-            <div class="phase-info">
-              <strong>Phase 3</strong> — Days 15–24
-              <p>4h skill blocks + 4h exam practice</p>
-            </div>
-          </div>
-          <div class="phase-item" id="ph4">
-            <div class="phase-dot"></div>
-            <div class="phase-info">
-              <strong>Phase 4</strong> — Days 25–40
-              <p>4h exam first + 4h skill consolidation</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="stat s-blue">
+      <div class="stat-lbl">Phase</div>
+      <div class="stat-val" id="s-phase">1</div>
+      <div class="stat-sub" id="s-phase-lbl">Foundations</div>
     </div>
+    <div class="stat s-purple">
+      <div class="stat-lbl">Hours Invested</div>
+      <div class="stat-val" id="s-hours">0</div>
+      <div class="stat-sub">of 320 total</div>
+    </div>
+    <div class="stat s-green">
+      <div class="stat-lbl">Target</div>
+      <div class="stat-val">C1</div>
+      <div class="stat-sub">Floor: B2 / CLB 7</div>
+    </div>
+  </div>
 
+  <div class="pbar-wrap">
+    <div class="pbar-top">
+      <div class="pbar-lbl">Overall Mission Progress</div>
+      <div class="pbar-pct" id="pbar-pct">0%</div>
+    </div>
+    <div class="pbar-track"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+  </div>
+
+  <div class="grid2">
     <div class="card">
-      <h2 class="card-title">40-Day Calendar</h2>
-      <div class="calendar-grid" id="calendar-grid"></div>
+      <div class="card-head">📅 Today's Schedule</div>
+      <div class="today-sched" id="today-sched"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">🗺 Phase Overview</div>
+      <div class="timeline">
+        <div class="tl-item" id="tl1"><div class="tl-dot"></div><div class="tl-body"><strong>Phase 1 — Days 1–4</strong><p>Tenses, phonics, core vocabulary, grammar install</p></div></div>
+        <div class="tl-item" id="tl2"><div class="tl-dot"></div><div class="tl-body"><strong>Phase 2 — Days 5–14</strong><p>4 skills × 2h: Reading · Writing · Listening · Speaking</p></div></div>
+        <div class="tl-item" id="tl3"><div class="tl-dot"></div><div class="tl-body"><strong>Phase 3 — Days 15–24</strong><p>4h skill practice + 4h exam drills</p></div></div>
+        <div class="tl-item" id="tl4"><div class="tl-dot"></div><div class="tl-body"><strong>Phase 4 — Days 25–40</strong><p>4h full mock exams + 4h targeted consolidation</p></div></div>
+      </div>
     </div>
   </div>
 
-  <!-- SYLLABUS PAGE -->
-  <div class="page" id="page-syllabus">
-    <header class="page-header">
-      <div>
-        <p class="page-eyebrow">Complete Curriculum</p>
-        <h1 class="page-title">Syllabus</h1>
-      </div>
-    </header>
-    <div class="syllabus-phases">
+  <div class="card">
+    <div class="card-head">📆 40-Day Calendar</div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
 
-      <div class="syllabus-phase">
-        <div class="syllabus-phase-header ph1">Phase 1 — Days 1–4 · The Core Install</div>
-        <div class="syllabus-grid">
-          <div class="syllabus-item">
-            <h3>Day 1 — Phonics + Present Tense</h3>
-            <ul>
-              <li>French alphabet and pronunciation rules (nasal vowels, silent letters, liaisons)</li>
-              <li>Présent indicatif: -er, -ir, -re verbs</li>
-              <li>Top 20 irregular verbs: être, avoir, aller, faire, pouvoir, vouloir, savoir, venir, voir, prendre + 10 more</li>
-              <li>Anki: Install French Core 2000 deck — do cards 1–100</li>
-              <li>Resource: Français Authentique (YouTube) — Episodes 1–5</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Day 2 — Past Tenses</h3>
-            <ul>
-              <li>Passé composé: avoir + être auxiliaries, past participle agreement</li>
-              <li>Imparfait: formation and usage contrast with passé composé</li>
-              <li>Plus-que-parfait (past perfect)</li>
-              <li>Passé récent: venir de + infinitif</li>
-              <li>Anki: cards 101–200</li>
-              <li>Write 10 sentences about your past in French</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Day 3 — Future + Conditional</h3>
-            <ul>
-              <li>Futur simple: regular + irregular stems</li>
-              <li>Futur proche: aller + infinitif</li>
-              <li>Conditionnel présent: formation and polite use</li>
-              <li>Conditionnel passé: regrets and hypotheticals</li>
-              <li>Si clauses: Type 1, 2, 3</li>
-              <li>Anki: cards 201–300</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Day 4 — Subjunctive + Core Vocab Consolidation</h3>
-            <ul>
-              <li>Subjonctif présent: formation and key triggers (vouloir que, il faut que, bien que…)</li>
-              <li>Subjonctif passé</li>
-              <li>Negation: ne…pas, ne…plus, ne…jamais, ne…que, ne…rien, ne…personne</li>
-              <li>Question forms: inversion, est-ce que, in-situ</li>
-              <li>Anki: cards 301–400 + review 1–300</li>
-              <li>Core topic vocabulary clusters: Family, Food, Travel, Work, Health</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="syllabus-phase">
-        <div class="syllabus-phase-header ph2">Phase 2 — Days 5–14 · Skill Immersion (8h/day, 4 skills × 2h)</div>
-        <div class="syllabus-grid">
-          <div class="syllabus-item">
-            <h3>Reading (1hr blocks)</h3>
-            <ul>
-              <li>Days 5–7: TV5Monde articles (B1) + Le Monde Facile</li>
-              <li>Days 8–10: Short stories — "Le Petit Prince" chapters 1–8</li>
-              <li>Days 11–14: Le Monde / France 24 — authentic news articles</li>
-              <li>Technique: read once for gist, annotate unknowns, re-read for detail</li>
-              <li>Build personal vocab list from readings (50 words/day)</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Writing (1hr blocks)</h3>
-            <ul>
-              <li>Days 5–7: Paragraph writing — descriptions (150 words)</li>
-              <li>Days 8–10: Opinion essays — introduce thesis + 2 arguments (200 words)</li>
-              <li>Days 11–14: Formal letters and emails (standard TCF/TEF formats)</li>
-              <li>Tool: LanguageTool.org for free grammar checking</li>
-              <li>Post on iTalki Notebook for native corrections</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Listening (1hr blocks)</h3>
-            <ul>
-              <li>Days 5–7: Inner French Podcast — episodes 1–7 (B1 level, slow clear French)</li>
-              <li>Days 8–10: News in Slow French — intermediate series</li>
-              <li>Days 11–14: RFI Savoirs, France Inter short clips, YouTube: Easy French</li>
-              <li>Technique: listen once without subtitles → transcribe key points → verify</li>
-              <li>Shadow 5 min of audio per session (repeat aloud at native speed)</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Speaking (1hr blocks)</h3>
-            <ul>
-              <li>Days 5–7: Pimsleur French 1 (free via library app Libby)</li>
-              <li>Days 8–10: iTalki community tutors (affordable) — 2×30min sessions</li>
-              <li>Days 11–14: Record yourself on common TCF topics. Listen back critically.</li>
-              <li>Core topics: se présenter, opinion sur l'environnement, technologie, éducation</li>
-              <li>Shadowing: 10min/day — repeat podcast audio verbatim</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="syllabus-phase">
-        <div class="syllabus-phase-header ph3">Phase 3 — Days 15–24 · Skill + Exam (4h+4h)</div>
-        <div class="syllabus-grid">
-          <div class="syllabus-item">
-            <h3>First 4 Hours — Skill Practice</h3>
-            <ul>
-              <li>1h Reading: Authentic B2-C1 texts — Le Monde editorials, literary excerpts</li>
-              <li>1h Writing: TCF-format essays (synthesis writing, article de blog, lettre formelle)</li>
-              <li>1h Listening: France Culture podcasts, TED-style conferences in French</li>
-              <li>1h Speaking: Record 3-min monologue on a new topic daily. Compare to model.</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Second 4 Hours — Exam Practice</h3>
-            <ul>
-              <li>TCF Canada / TEF Canada format familiarisation</li>
-              <li>Timed reading comprehension sets (20 questions / 60 min)</li>
-              <li>Timed listening sets — use official YouTube practice audio</li>
-              <li>Writing: 1 timed essay under exam conditions</li>
-              <li>Review all errors immediately; categorize by grammar / vocab / strategy</li>
-              <li>Free resource: CLE International TCF practice (archive.org)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="syllabus-phase">
-        <div class="syllabus-phase-header ph4">Phase 4 — Days 25–40 · Exam First (4h exam + 4h skill)</div>
-        <div class="syllabus-grid">
-          <div class="syllabus-item">
-            <h3>First 4 Hours — Full Mock Exams</h3>
-            <ul>
-              <li>Full TCF/TEF simulation under strict timed conditions</li>
-              <li>Rotate: Mon/Wed/Fri full exam — Tue/Thu/Sat/Sun section drills</li>
-              <li>Track score per section: target CLB 7 in each</li>
-              <li>Free mock tests: see Mock Exams page</li>
-              <li>Analyse performance trends — double down on weakest skill</li>
-            </ul>
-          </div>
-          <div class="syllabus-item">
-            <h3>Second 4 Hours — Consolidation</h3>
-            <ul>
-              <li>1h: Target weakness from morning exam</li>
-              <li>1h: Vocabulary — Anki + high-frequency C1 word list</li>
-              <li>1h: Listening or reading (alternate days)</li>
-              <li>1h: Speaking — iTalki session or self-recording + review</li>
-              <li>Final week: only exam simulations + targeted micro-practice</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
+<!-- SYLLABUS -->
+<div class="page" id="page-syllabus">
+  <div class="ph"><div><div class="ph-eyebrow">Complete Curriculum</div><div class="ph-title">Syl<span>labus</span></div></div></div>
+  <div class="syl-ph">
+    <div class="syl-ph-hd p1">Phase 1 — Days 1–4 · The Core Install</div>
+    <div class="syl-grid">
+      <div class="syl-item"><h3>Day 1 — Phonics + Present Tense</h3><ul>
+        <li>Alphabet, nasal vowels, silent letters, liaisons</li>
+        <li>Présent indicatif: -er, -ir, -re verbs (conjugation patterns)</li>
+        <li>Top 20 irregular: être, avoir, aller, faire, pouvoir, vouloir, savoir, venir, voir, prendre + 10 more</li>
+        <li>Anki: Install French Core 2000 deck — do cards 1–100</li>
+        <li>Français Authentique YouTube — Episodes 1–5</li>
+      </ul></div>
+      <div class="syl-item"><h3>Day 2 — Past Tenses</h3><ul>
+        <li>Passé composé: avoir + être auxiliaries, past participle agreements</li>
+        <li>Imparfait: formation and usage contrast with passé composé</li>
+        <li>Plus-que-parfait (past perfect)</li>
+        <li>Passé récent: venir de + infinitif</li>
+        <li>Anki cards 101–200 · Write 10 sentences about your past</li>
+      </ul></div>
+      <div class="syl-item"><h3>Day 3 — Future + Conditional</h3><ul>
+        <li>Futur simple: regular + irregular stems (aller→ir-, avoir→aur-…)</li>
+        <li>Futur proche: aller + infinitif</li>
+        <li>Conditionnel présent: formation and polite use</li>
+        <li>Conditionnel passé: regrets and hypotheticals</li>
+        <li>Si-clauses Types 1, 2, 3 · Anki cards 201–300</li>
+      </ul></div>
+      <div class="syl-item"><h3>Day 4 — Subjunctive + Consolidation</h3><ul>
+        <li>Subjonctif présent: formation + key triggers (vouloir que, il faut que, bien que…)</li>
+        <li>Subjonctif passé</li>
+        <li>Full negation: ne…pas/plus/jamais/que/rien/personne</li>
+        <li>Question forms: inversion, est-ce que, in-situ</li>
+        <li>Anki 301–400 + review 1–300 · Topic clusters: Family, Food, Travel, Work, Health</li>
+      </ul></div>
     </div>
   </div>
-
-  <!-- SCHEDULE PAGE -->
-  <div class="page" id="page-schedule">
-    <header class="page-header">
-      <div>
-        <p class="page-eyebrow">Daily Structure</p>
-        <h1 class="page-title">Schedule</h1>
-      </div>
-    </header>
-    <div class="schedule-tabs">
-      <button class="sched-tab active" data-sched="phase1">Phase 1 (Days 1–4)</button>
-      <button class="sched-tab" data-sched="phase2">Phase 2 (Days 5–14)</button>
-      <button class="sched-tab" data-sched="phase3">Phase 3 (Days 15–24)</button>
-      <button class="sched-tab" data-sched="phase4">Phase 4 (Days 25–40)</button>
+  <div class="syl-ph">
+    <div class="syl-ph-hd p2">Phase 2 — Days 5–14 · Skill Immersion (4 skills × 2h daily)</div>
+    <div class="syl-grid">
+      <div class="syl-item"><h3>Reading (1h blocks × 2)</h3><ul>
+        <li>Days 5–7: TV5Monde articles (B1) + Le Monde Campus</li>
+        <li>Days 8–10: Le Petit Prince — chapters 1–8</li>
+        <li>Days 11–14: France 24 / Le Monde — authentic news</li>
+        <li>Scan → gist read → annotate 10 unknowns → re-read → 3-sentence French summary</li>
+        <li>50 new vocab words extracted daily</li>
+      </ul></div>
+      <div class="syl-item"><h3>Writing (1h blocks × 2)</h3><ul>
+        <li>Days 5–7: Paragraph descriptions (150 words)</li>
+        <li>Days 8–10: Opinion essays — thesis + 2 arguments (200 words)</li>
+        <li>Days 11–14: Lettre formelle, courriel professionnel</li>
+        <li>LanguageTool.org for grammar checking (free)</li>
+        <li>Post on iTalki Notebook for free native corrections</li>
+      </ul></div>
+      <div class="syl-item"><h3>Listening (1h blocks × 2)</h3><ul>
+        <li>Days 5–7: Inner French Podcast episodes 1–7 (B1)</li>
+        <li>Days 8–10: News in Slow French — intermediate</li>
+        <li>Days 11–14: RFI Français Facile, France Inter clips, Easy French YouTube</li>
+        <li>Listen cold → transcribe key points → verify with transcript</li>
+        <li>Shadow 10min per session (repeat aloud at native speed)</li>
+      </ul></div>
+      <div class="syl-item"><h3>Speaking (1h blocks × 2)</h3><ul>
+        <li>Days 5–7: Pimsleur French 1 via Libby (free with library card)</li>
+        <li>Days 8–10: iTalki language exchange — 2×30min per session</li>
+        <li>Days 11–14: Record 3-min monologues on TCF topics. Listen back critically.</li>
+        <li>Core topics: se présenter, environnement, technologie, éducation</li>
+        <li>Shadowing: 10min/day — repeat podcast audio verbatim</li>
+      </ul></div>
     </div>
-    <div class="schedule-content" id="schedule-content"></div>
   </div>
+  <div class="syl-ph">
+    <div class="syl-ph-hd p3">Phase 3 — Days 15–24 · Skill + Exam (4h + 4h)</div>
+    <div class="syl-grid">
+      <div class="syl-item"><h3>First 4 Hours — Skill Practice</h3><ul>
+        <li>1h Reading: Le Monde editorials, literary excerpts (B2–C1)</li>
+        <li>1h Writing: TCF essays — synthèse, article de blog, lettre formelle</li>
+        <li>1h Listening: France Culture, TED conferences en français</li>
+        <li>1h Speaking: Recorded 3-min monologue. Self-evaluate vs model response.</li>
+      </ul></div>
+      <div class="syl-item"><h3>Second 4 Hours — Exam Practice</h3><ul>
+        <li>TCF Canada / TEF Canada format deep-familiarisation</li>
+        <li>Timed reading comprehension (20 questions / 60 min)</li>
+        <li>Timed listening sets — official YouTube TCF audio</li>
+        <li>1 timed essay under real exam conditions (no aids)</li>
+        <li>Review ALL errors: categorize grammar / vocab / strategy</li>
+        <li>CLE International TCF prep books — free on Internet Archive</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="syl-ph">
+    <div class="syl-ph-hd p4">Phase 4 — Days 25–40 · Exam First (4h exam + 4h skill)</div>
+    <div class="syl-grid">
+      <div class="syl-item"><h3>First 4 Hours — Full Mock Exams</h3><ul>
+        <li>Full TCF/TEF simulation — strict timed conditions, no pausing</li>
+        <li>Rotate: Mon/Wed/Fri full exam · Tue/Thu/Sat/Sun section drills</li>
+        <li>Track score per skill: target CLB 7 in each component</li>
+        <li>Trend analysis: chart your weekly score progression</li>
+        <li>Final week: exam-only sessions, no skill practice</li>
+      </ul></div>
+      <div class="syl-item"><h3>Second 4 Hours — Consolidation</h3><ul>
+        <li>1h: Target the skill where you lost most points in AM exam</li>
+        <li>1h: Vocabulary — Anki + C1 high-frequency word list</li>
+        <li>1h: Listening or reading (alternate days)</li>
+        <li>1h: Speaking — iTalki or self-recording + critical review</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
 
-  <!-- VOCABULARY PAGE -->
-  <div class="page" id="page-vocabulary">
-    <header class="page-header">
-      <div>
-        <p class="page-eyebrow">Build Your Bank</p>
-        <h1 class="page-title">Vocabulary</h1>
-      </div>
-    </header>
-    <div class="two-col">
-      <div class="card">
-        <h2 class="card-title">Free Resources</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://ankiweb.net/shared/info/893324022" target="_blank">
-            <span class="res-icon">▶</span>
-            <div><strong>Anki — French Core 2000</strong><p>2000 most common French words with audio. Free on AnkiWeb.</p></div>
-          </a>
-          <a class="resource-item" href="https://www.wordreference.com" target="_blank">
-            <span class="res-icon">▶</span>
-            <div><strong>WordReference.com</strong><p>Best free French-English dictionary. Includes forum discussions for nuance.</p></div>
-          </a>
-          <a class="resource-item" href="https://www.larousse.fr/dictionnaires/francais" target="_blank">
-            <span class="res-icon">▶</span>
-            <div><strong>Larousse Dictionary</strong><p>Official French monolingual dictionary. Use it from Day 15+.</p></div>
-          </a>
-          <a class="resource-item" href="https://conjugueur.reverso.net" target="_blank">
-            <span class="res-icon">▶</span>
-            <div><strong>Reverso Conjugator</strong><p>Every verb conjugation, every tense. Free and comprehensive.</p></div>
-          </a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Daily Targets</h2>
-        <div class="vocab-targets">
-          <div class="vocab-target-row"><span>Days 1–4</span><strong>100 words/day (Anki)</strong></div>
-          <div class="vocab-target-row"><span>Days 5–14</span><strong>50 new + 50 review/day</strong></div>
-          <div class="vocab-target-row"><span>Days 15–24</span><strong>30 new + 70 review/day</strong></div>
-          <div class="vocab-target-row"><span>Days 25–40</span><strong>20 new + review all weak cards</strong></div>
-          <div class="vocab-target-row total"><span>Total target</span><strong>~2000 active words</strong></div>
-        </div>
+<!-- SCHEDULE -->
+<div class="page" id="page-schedule">
+  <div class="ph"><div><div class="ph-eyebrow">Daily Structure</div><div class="ph-title">Sche<span>dule</span></div></div></div>
+  <div class="sched-tabs">
+    <button class="stab active" data-s="phase1">Phase 1 · Days 1–4</button>
+    <button class="stab" data-s="phase2">Phase 2 · Days 5–14</button>
+    <button class="stab" data-s="phase3">Phase 3 · Days 15–24</button>
+    <button class="stab" data-s="phase4">Phase 4 · Days 25–40</button>
+  </div>
+  <div id="sched-content"></div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="page" id="page-vocabulary">
+  <div class="ph"><div><div class="ph-eyebrow">Build Your Bank</div><div class="ph-title">Voca<span>bulary</span></div></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">🔗 Free Resources</div>
+      <div class="res-list">
+        <a class="res-item" href="https://ankiweb.net/shared/info/893324022" target="_blank"><span class="res-ic">▶</span><div><strong>Anki — French Core 2000</strong><p>2000 most common words with audio. Free on AnkiWeb.</p></div></a>
+        <a class="res-item" href="https://www.wordreference.com" target="_blank"><span class="res-ic">▶</span><div><strong>WordReference.com</strong><p>Best free French-English dictionary. Forum discussions for nuance.</p></div></a>
+        <a class="res-item" href="https://www.larousse.fr/dictionnaires/francais" target="_blank"><span class="res-ic">▶</span><div><strong>Larousse (monolingual)</strong><p>French-only dictionary. Use from Day 15+ for immersion.</p></div></a>
+        <a class="res-item" href="https://conjugueur.reverso.net" target="_blank"><span class="res-ic">▶</span><div><strong>Reverso Conjugator</strong><p>Every verb, every tense. Fully free.</p></div></a>
       </div>
     </div>
     <div class="card">
-      <h2 class="card-title">TCF/TEF Topic Vocabulary Clusters</h2>
-      <div class="topic-clusters" id="topic-clusters"></div>
+      <div class="card-head">🎯 Daily Targets</div>
+      <div class="vtargets">
+        <div class="vrow"><span>Days 1–4</span><strong>100 words/day (Anki)</strong></div>
+        <div class="vrow"><span>Days 5–14</span><strong>50 new + 50 review/day</strong></div>
+        <div class="vrow"><span>Days 15–24</span><strong>30 new + 70 review/day</strong></div>
+        <div class="vrow"><span>Days 25–40</span><strong>20 new + all weak cards</strong></div>
+        <div class="vrow total"><span>Total target</span><strong>~2000 active words</strong></div>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-head">🗂 TCF/TEF Topic Vocabulary Clusters</div>
+    <div class="clusters" id="clusters"></div>
+  </div>
+</div>
 
-  <!-- GRAMMAR PAGE -->
-  <div class="page" id="page-grammar">
-    <header class="page-header">
-      <div>
-        <p class="page-eyebrow">Structure & Rules</p>
-        <h1 class="page-title">Grammar</h1>
-      </div>
-    </header>
+<!-- GRAMMAR -->
+<div class="page" id="page-grammar">
+  <div class="ph"><div><div class="ph-eyebrow">Structure & Rules</div><div class="ph-title">Gram<span>mar</span></div></div></div>
+  <div class="card">
+    <div class="card-head">🔗 Free Grammar Resources</div>
+    <div class="res-list">
+      <a class="res-item" href="https://www.lawlessfrench.com" target="_blank"><span class="res-ic">▶</span><div><strong>Lawless French</strong><p>Best organized free grammar reference. Start here.</p></div></a>
+      <a class="res-item" href="https://conjugueur.reverso.net" target="_blank"><span class="res-ic">▶</span><div><strong>Reverso Conjugator</strong><p>All verb forms, all tenses.</p></div></a>
+      <a class="res-item" href="https://www.languageguide.org/french/grammar/" target="_blank"><span class="res-ic">▶</span><div><strong>Language Guide — French Grammar</strong><p>Interactive guide with audio.</p></div></a>
+      <a class="res-item" href="https://www.kwiziq.com" target="_blank"><span class="res-ic">▶</span><div><strong>Kwiziq French</strong><p>AI grammar quizzes. Free tier covers B1.</p></div></a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">☑ Grammar Checklist by Phase</div>
+    <div class="gcl" id="gcl"></div>
+  </div>
+</div>
+
+<!-- LISTENING -->
+<div class="page" id="page-listening">
+  <div class="ph"><div><div class="ph-eyebrow">Train Your Ear</div><div class="ph-title">Liste<span>ning</span></div></div></div>
+  <div class="grid2">
     <div class="card">
-      <h2 class="card-title">Free Grammar Resources</h2>
-      <div class="resource-list">
-        <a class="resource-item" href="https://www.lawlessfrench.com" target="_blank">
-          <span class="res-icon">▶</span>
-          <div><strong>Lawless French</strong><p>Comprehensive free grammar reference. Best organized site for learners.</p></div>
-        </a>
-        <a class="resource-item" href="https://conjugueur.reverso.net" target="_blank">
-          <span class="res-icon">▶</span>
-          <div><strong>Reverso Conjugator</strong><p>All verb forms, all tenses, free.</p></div>
-        </a>
-        <a class="resource-item" href="https://www.languageguide.org/french/grammar/" target="_blank">
-          <span class="res-icon">▶</span>
-          <div><strong>Language Guide — French Grammar</strong><p>Interactive grammar guide with audio.</p></div>
-        </a>
-        <a class="resource-item" href="https://kwiziq.com" target="_blank">
-          <span class="res-icon">▶</span>
-          <div><strong>Kwiziq French</strong><p>AI-powered grammar quizzes. Free tier covers B1 content.</p></div>
-        </a>
-      </div>
-    </div>
-    <div class="card">
-      <h2 class="card-title">Grammar Checklist by Phase</h2>
-      <div class="grammar-checklist" id="grammar-checklist"></div>
-    </div>
-  </div>
-
-  <!-- LISTENING PAGE -->
-  <div class="page" id="page-listening">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Train Your Ear</p><h1 class="page-title">Listening</h1></div>
-    </header>
-    <div class="resource-grid">
-      <div class="card">
-        <h2 class="card-title">Podcasts</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://innerfrench.com/podcast/" target="_blank"><span class="res-icon">▶</span><div><strong>Inner French Podcast</strong><p>Slow, clear French designed for intermediate learners. Start here Day 5.</p></div></a>
-          <a class="resource-item" href="https://www.newsinslowfrench.com" target="_blank"><span class="res-icon">▶</span><div><strong>News in Slow French</strong><p>Weekly news at reduced speed. Free episodes available.</p></div></a>
-          <a class="resource-item" href="https://www.rfi.fr/fr/podcasts/journal-en-francais-facile/" target="_blank"><span class="res-icon">▶</span><div><strong>RFI — Journal en Français Facile</strong><p>Daily 10-min news at learner pace. Transcript available. 100% free.</p></div></a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">YouTube Channels</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://www.youtube.com/@EasyFrench" target="_blank"><span class="res-icon">▶</span><div><strong>Easy French</strong><p>Street interviews with dual subtitles. Authentic natural speech.</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@francaisauthentique" target="_blank"><span class="res-icon">▶</span><div><strong>Français Authentique</strong><p>Johan's channel. Slow, clear, methodical. Perfect for Phase 1.</p></div></a>
-          <a class="resource-item" href="https://www.youtube.com/@FranceInter" target="_blank"><span class="res-icon">▶</span><div><strong>France Inter</strong><p>Real French radio — use from Day 20+ for authentic exposure.</p></div></a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Technique: Shadowing Protocol</h2>
-        <ol class="protocol-list">
-          <li>Pick a 2-minute audio clip at your level</li>
-          <li>Listen once without looking at transcript</li>
-          <li>Listen again, read transcript simultaneously</li>
-          <li>Pause every sentence. Repeat aloud verbatim.</li>
-          <li>Play full clip again — shadow without pausing</li>
-          <li>Do this 10min/day minimum from Day 5</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- READING PAGE -->
-  <div class="page" id="page-reading">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Expand Your Comprehension</p><h1 class="page-title">Reading</h1></div>
-    </header>
-    <div class="resource-grid">
-      <div class="card">
-        <h2 class="card-title">Graded by Phase</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://apprendre.tv5monde.com/fr" target="_blank"><span class="res-icon">▶</span><div><strong>TV5Monde — A2/B1</strong><p>Articles with built-in comprehension exercises. Free. Start Day 5.</p></div></a>
-          <a class="resource-item" href="https://www.lemonde.fr/campus/" target="_blank"><span class="res-icon">▶</span><div><strong>Le Monde Campus — B1/B2</strong><p>Education section uses clearer language than main paper. Day 10+.</p></div></a>
-          <a class="resource-item" href="https://www.france24.com/fr/" target="_blank"><span class="res-icon">▶</span><div><strong>France 24 — B2</strong><p>International news in French. Excellent for TCF reading topics. Day 12+.</p></div></a>
-          <a class="resource-item" href="https://www.gutenberg.org/browse/languages/fr" target="_blank"><span class="res-icon">▶</span><div><strong>Project Gutenberg — French Classics</strong><p>Free public domain French literature. Le Petit Prince, Maupassant.</p></div></a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Reading Technique</h2>
-        <ol class="protocol-list">
-          <li><strong>Scan</strong> — title, headings, first sentence of each paragraph</li>
-          <li><strong>Read for gist</strong> — don't stop for unknown words</li>
-          <li><strong>Annotate</strong> — circle max 10 unknown words per article</li>
-          <li><strong>Look up</strong> — only the most frequent-seeming unknowns</li>
-          <li><strong>Re-read</strong> — now with comprehension</li>
-          <li><strong>Summarize</strong> — write 3 sentences about the article in French</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- WRITING PAGE -->
-  <div class="page" id="page-writing">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Express Yourself</p><h1 class="page-title">Writing</h1></div>
-    </header>
-    <div class="resource-grid">
-      <div class="card">
-        <h2 class="card-title">Free Tools</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://languagetool.org" target="_blank"><span class="res-icon">▶</span><div><strong>LanguageTool.org</strong><p>Free grammar and style checker for French. Paste your writing here daily.</p></div></a>
-          <a class="resource-item" href="https://www.italki.com/notebook" target="_blank"><span class="res-icon">▶</span><div><strong>iTalki Notebook</strong><p>Post your writing — native speakers correct it for free.</p></div></a>
-          <a class="resource-item" href="https://www.bonpatron.com" target="_blank"><span class="res-icon">▶</span><div><strong>BonPatron</strong><p>French-specific grammar checker. Good for Quebec French.</p></div></a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">TCF Writing Formats to Master</h2>
-        <ul class="format-list">
-          <li><strong>Lettre formelle</strong> — complaint, request, application (180–220 words)</li>
-          <li><strong>Courriel formel</strong> — professional email format</li>
-          <li><strong>Article de blog / opinion</strong> — thesis + 2-3 arguments + conclusion</li>
-          <li><strong>Compte-rendu</strong> — summary of a document or situation</li>
-          <li><strong>Synthèse</strong> — C1: synthesize 2-3 source documents</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Writing Prompt Bank</h2>
-        <div id="writing-prompts"></div>
-        <button class="btn-secondary" id="new-prompt-btn">New Prompt</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SPEAKING PAGE -->
-  <div class="page" id="page-speaking">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Find Your Voice</p><h1 class="page-title">Speaking</h1></div>
-    </header>
-    <div class="resource-grid">
-      <div class="card">
-        <h2 class="card-title">Free Practice Resources</h2>
-        <div class="resource-list">
-          <a class="resource-item" href="https://www.pimsleur.com" target="_blank"><span class="res-icon">▶</span><div><strong>Pimsleur (via Libby/Library)</strong><p>Free with library card. Audio-only, forces speaking. Level 1–2 for Phase 1.</p></div></a>
-          <a class="resource-item" href="https://www.italki.com/community/french" target="_blank"><span class="res-icon">▶</span><div><strong>iTalki — Language Partners</strong><p>Find free language exchange partners. Trade French for English.</p></div></a>
-          <a class="resource-item" href="https://www.tandem.net" target="_blank"><span class="res-icon">▶</span><div><strong>Tandem App</strong><p>Free language exchange app. Match with French native speakers.</p></div></a>
-          <a class="resource-item" href="https://www.speaky.com" target="_blank"><span class="res-icon">▶</span><div><strong>Speaky</strong><p>Free language exchange community. Good for async voice messages.</p></div></a>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">TCF Speaking Topics</h2>
-        <div id="speaking-topics"></div>
-        <button class="btn-secondary" id="new-topic-btn">Next Topic</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MOCK EXAMS PAGE -->
-  <div class="page" id="page-exams">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Test Yourself</p><h1 class="page-title">Mock Exams</h1></div>
-    </header>
-    <div class="card">
-      <h2 class="card-title">Free Official & Semi-Official Resources</h2>
-      <div class="resource-list">
-        <a class="resource-item" href="https://www.lefrancaisdesaffaires.fr/tests-diplomes/test-tef/" target="_blank"><span class="res-icon">▶</span><div><strong>TEF Official Sample Tests</strong><p>Official TEF practice materials. Download free sample questions.</p></div></a>
-        <a class="resource-item" href="https://www.france-langue.fr/tests/test-de-francais/" target="_blank"><span class="res-icon">▶</span><div><strong>France Langue — Level Test</strong><p>Free 40-question diagnostic test. Use to benchmark every 5 days.</p></div></a>
-        <a class="resource-item" href="https://testfrancais.ciep.fr" target="_blank"><span class="res-icon">▶</span><div><strong>CIEP — TCF Sample Tests</strong><p>Official TCF preparation materials and sample listening/reading sets.</p></div></a>
-        <a class="resource-item" href="https://www.youtube.com/results?search_query=TCF+Canada+preparation" target="_blank"><span class="res-icon">▶</span><div><strong>YouTube — TCF Canada Prep</strong><p>Search for "TCF Canada preparation" — dozens of free mock sessions.</p></div></a>
-        <a class="resource-item" href="https://archive.org/search?query=TCF+francais" target="_blank"><span class="res-icon">▶</span><div><strong>Internet Archive — TCF Books</strong><p>Scanned copies of CLE International TCF prep books. Free to read online.</p></div></a>
+      <div class="card-head">🎙 Podcasts</div>
+      <div class="res-list">
+        <a class="res-item" href="https://innerfrench.com/podcast/" target="_blank"><span class="res-ic">▶</span><div><strong>Inner French Podcast</strong><p>Slow clear French for intermediates. Start Day 5.</p></div></a>
+        <a class="res-item" href="https://www.newsinslowfrench.com" target="_blank"><span class="res-ic">▶</span><div><strong>News in Slow French</strong><p>Weekly news at learner speed. Free episodes.</p></div></a>
+        <a class="res-item" href="https://www.rfi.fr/fr/podcasts/journal-en-francais-facile/" target="_blank"><span class="res-ic">▶</span><div><strong>RFI — Journal en Français Facile</strong><p>Daily 10-min news. Free transcript. Best B1 resource.</p></div></a>
       </div>
     </div>
     <div class="card">
-      <h2 class="card-title">Quick Reading Comprehension Mini-Test</h2>
-      <div id="mini-test-container"></div>
-    </div>
-    <div class="card">
-      <h2 class="card-title">CLB Score Mapping</h2>
-      <div class="clb-table-wrap">
-        <table class="clb-table">
-          <thead><tr><th>CEFR Level</th><th>CLB Equivalent</th><th>TCF Score Range</th><th>Your Target</th></tr></thead>
-          <tbody>
-            <tr><td>A1</td><td>CLB 1–2</td><td>100–199</td><td></td></tr>
-            <tr><td>A2</td><td>CLB 3–4</td><td>200–299</td><td></td></tr>
-            <tr><td>B1</td><td>CLB 5–6</td><td>300–399</td><td></td></tr>
-            <tr class="target-row"><td>B2</td><td>CLB 7–8</td><td>400–499</td><td>✦ Floor Target</td></tr>
-            <tr><td>C1</td><td>CLB 9–10</td><td>500–599</td><td>✦ Stretch Goal</td></tr>
-            <tr><td>C2</td><td>CLB 11–12</td><td>600–699</td><td></td></tr>
-          </tbody>
-        </table>
+      <div class="card-head">📺 YouTube Channels</div>
+      <div class="res-list">
+        <a class="res-item" href="https://www.youtube.com/@EasyFrench" target="_blank"><span class="res-ic">▶</span><div><strong>Easy French</strong><p>Street interviews, dual subtitles. Authentic speech.</p></div></a>
+        <a class="res-item" href="https://www.youtube.com/@francaisauthentique" target="_blank"><span class="res-ic">▶</span><div><strong>Français Authentique</strong><p>Johan's channel. Slow, clear, methodical. Phase 1 perfect.</p></div></a>
+        <a class="res-item" href="https://www.youtube.com/@FranceInter" target="_blank"><span class="res-ic">▶</span><div><strong>France Inter</strong><p>Real French radio. Use from Day 20+ for authentic exposure.</p></div></a>
       </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-head">🔄 Shadowing Protocol</div>
+    <ol class="proto">
+      <li>Choose a 2-minute clip at your current level</li>
+      <li>Listen once — no transcript, no subtitles</li>
+      <li>Listen again while reading the transcript</li>
+      <li>Pause every sentence. Repeat aloud verbatim. Match the rhythm.</li>
+      <li>Play the full clip again and shadow without pausing</li>
+      <li>Minimum 10 minutes of shadowing daily from Day 5</li>
+    </ol>
+  </div>
+</div>
 
-  <!-- PROGRESS PAGE -->
-  <div class="page" id="page-progress">
-    <header class="page-header">
-      <div><p class="page-eyebrow">Track Everything</p><h1 class="page-title">Progress</h1></div>
-    </header>
-    <div class="two-col">
-      <div class="card">
-        <h2 class="card-title">Log Today's Score</h2>
-        <div class="score-form">
-          <label>Reading (0–100)</label>
-          <input type="number" id="score-reading" min="0" max="100" placeholder="e.g. 72">
-          <label>Writing (0–100)</label>
-          <input type="number" id="score-writing" min="0" max="100" placeholder="e.g. 65">
-          <label>Listening (0–100)</label>
-          <input type="number" id="score-listening" min="0" max="100" placeholder="e.g. 68">
-          <label>Speaking (0–100)</label>
-          <input type="number" id="score-speaking" min="0" max="100" placeholder="e.g. 60">
-          <button class="btn-primary" id="save-scores-btn">Save Scores</button>
-        </div>
-      </div>
-      <div class="card">
-        <h2 class="card-title">Score History</h2>
-        <div id="score-history" class="score-history"></div>
+<!-- READING -->
+<div class="page" id="page-reading">
+  <div class="ph"><div><div class="ph-eyebrow">Expand Comprehension</div><div class="ph-title">Rea<span>ding</span></div></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">📰 Graded by Phase</div>
+      <div class="res-list">
+        <a class="res-item" href="https://apprendre.tv5monde.com/fr" target="_blank"><span class="res-ic">▶</span><div><strong>TV5Monde — A2/B1</strong><p>Built-in comprehension exercises. Free. Start Day 5.</p></div></a>
+        <a class="res-item" href="https://www.lemonde.fr/campus/" target="_blank"><span class="res-ic">▶</span><div><strong>Le Monde Campus — B1/B2</strong><p>Clearer language than main paper. Day 10+.</p></div></a>
+        <a class="res-item" href="https://www.france24.com/fr/" target="_blank"><span class="res-ic">▶</span><div><strong>France 24 — B2</strong><p>International news in French. TCF-perfect topics. Day 12+.</p></div></a>
+        <a class="res-item" href="https://www.gutenberg.org/browse/languages/fr" target="_blank"><span class="res-ic">▶</span><div><strong>Gutenberg — French Classics</strong><p>Free public domain: Le Petit Prince, Maupassant.</p></div></a>
       </div>
     </div>
     <div class="card">
-      <h2 class="card-title">Skill Radar</h2>
-      <canvas id="radar-chart" width="400" height="300"></canvas>
-    </div>
-    <div class="card">
-      <h2 class="card-title">Notes & Reflections</h2>
-      <textarea id="daily-notes" placeholder="What did you study today? What was hard? What clicked?" rows="5"></textarea>
-      <button class="btn-secondary" id="save-notes-btn" style="margin-top:12px">Save Notes</button>
-      <div id="notes-history" style="margin-top:16px"></div>
+      <div class="card-head">📖 Reading Protocol</div>
+      <ol class="proto">
+        <li><strong>Scan</strong> — title, headings, first sentence of each paragraph</li>
+        <li><strong>Gist read</strong> — don't stop for unknown words. Get the shape.</li>
+        <li><strong>Annotate</strong> — circle maximum 10 unknowns per article</li>
+        <li><strong>Look up</strong> — only the most frequent-seeming unknowns</li>
+        <li><strong>Re-read</strong> — now with comprehension and context</li>
+        <li><strong>Summarize</strong> — write 3 sentences about the article in French</li>
+      </ol>
     </div>
   </div>
+</div>
+
+<!-- WRITING -->
+<div class="page" id="page-writing">
+  <div class="ph"><div><div class="ph-eyebrow">Express Yourself</div><div class="ph-title">Wri<span>ting</span></div></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">🔗 Free Tools</div>
+      <div class="res-list">
+        <a class="res-item" href="https://languagetool.org" target="_blank"><span class="res-ic">▶</span><div><strong>LanguageTool.org</strong><p>Free French grammar and style checker. Paste your writing here.</p></div></a>
+        <a class="res-item" href="https://www.italki.com/notebook" target="_blank"><span class="res-ic">▶</span><div><strong>iTalki Notebook</strong><p>Post writing → native speakers correct for free.</p></div></a>
+        <a class="res-item" href="https://www.bonpatron.com" target="_blank"><span class="res-ic">▶</span><div><strong>BonPatron</strong><p>French-specific checker. Good for Quebec French.</p></div></a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">📝 TCF Formats to Master</div>
+      <ul class="flist">
+        <li><strong>Lettre formelle</strong> — complaint, request, application (180–220 words)</li>
+        <li><strong>Courriel formel</strong> — professional email with standard codes</li>
+        <li><strong>Article de blog / opinion</strong> — thesis + 2-3 arguments + conclusion</li>
+        <li><strong>Compte-rendu</strong> — factual summary of a document or situation</li>
+        <li><strong>Synthèse (C1)</strong> — synthesize 2-3 source documents</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">✍ Writing Prompt Bank</div>
+    <div id="prompt-card"></div>
+    <button class="btn btn-outline" id="btn-prompt" style="margin-top:14px">New Prompt →</button>
+  </div>
+</div>
+
+<!-- SPEAKING -->
+<div class="page" id="page-speaking">
+  <div class="ph"><div><div class="ph-eyebrow">Find Your Voice</div><div class="ph-title">Spea<span>king</span></div></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">🎤 Free Practice Resources</div>
+      <div class="res-list">
+        <a class="res-item" href="https://www.pimsleur.com" target="_blank"><span class="res-ic">▶</span><div><strong>Pimsleur via Libby (Library)</strong><p>Free with library card. Audio-only, forces speaking. Levels 1–2.</p></div></a>
+        <a class="res-item" href="https://www.italki.com/community/french" target="_blank"><span class="res-ic">▶</span><div><strong>iTalki Language Partners</strong><p>Free exchange partners. Trade French for English.</p></div></a>
+        <a class="res-item" href="https://www.tandem.net" target="_blank"><span class="res-ic">▶</span><div><strong>Tandem App</strong><p>Free language exchange app. Match with French native speakers.</p></div></a>
+        <a class="res-item" href="https://www.speaky.com" target="_blank"><span class="res-ic">▶</span><div><strong>Speaky</strong><p>Free exchange community. Good for async voice messages.</p></div></a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">💬 TCF Speaking Topics</div>
+      <div id="topic-card"></div>
+      <button class="btn btn-outline" id="btn-topic" style="margin-top:14px">Next Topic →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOCK EXAMS -->
+<div class="page" id="page-exams">
+  <div class="ph"><div><div class="ph-eyebrow">Test Yourself</div><div class="ph-title">Mock <span>Exams</span></div></div></div>
+  <div class="card">
+    <div class="card-head">🔗 Free Official Resources</div>
+    <div class="res-list">
+      <a class="res-item" href="https://www.lefrancaisdesaffaires.fr/tests-diplomes/test-tef/" target="_blank"><span class="res-ic">▶</span><div><strong>TEF Official Sample Tests</strong><p>Official TEF practice materials. Free sample questions.</p></div></a>
+      <a class="res-item" href="https://www.france-langue.fr/tests/test-de-francais/" target="_blank"><span class="res-ic">▶</span><div><strong>France Langue — Level Test</strong><p>Free 40-question diagnostic. Use to benchmark every 5 days.</p></div></a>
+      <a class="res-item" href="https://testfrancais.ciep.fr" target="_blank"><span class="res-ic">▶</span><div><strong>CIEP — TCF Sample Tests</strong><p>Official TCF prep materials and sample sets.</p></div></a>
+      <a class="res-item" href="https://www.youtube.com/results?search_query=TCF+Canada+preparation" target="_blank"><span class="res-ic">▶</span><div><strong>YouTube — TCF Canada Prep</strong><p>Dozens of free mock sessions and walkthroughs.</p></div></a>
+      <a class="res-item" href="https://archive.org/search?query=TCF+francais" target="_blank"><span class="res-ic">▶</span><div><strong>Internet Archive — TCF Books</strong><p>Scanned CLE International TCF prep books. Free to read.</p></div></a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">⚡ Quick Reading Comprehension Test</div>
+    <div id="mini-test"></div>
+  </div>
+  <div class="card">
+    <div class="card-head">📊 CLB ↔ CEFR ↔ TCF Score Mapping</div>
+    <div class="clb-wrap">
+      <table class="clb-table">
+        <thead><tr><th>CEFR Level</th><th>CLB Equivalent</th><th>TCF Score</th><th>Your Target</th></tr></thead>
+        <tbody>
+          <tr><td>A1</td><td>CLB 1–2</td><td>100–199</td><td>—</td></tr>
+          <tr><td>A2</td><td>CLB 3–4</td><td>200–299</td><td>—</td></tr>
+          <tr><td>B1</td><td>CLB 5–6</td><td>300–399</td><td>—</td></tr>
+          <tr class="tgt"><td>B2</td><td>CLB 7–8</td><td>400–499</td><td>✦ Floor Target</td></tr>
+          <tr class="tgt"><td>C1</td><td>CLB 9–10</td><td>500–599</td><td>✦ Stretch Goal</td></tr>
+          <tr><td>C2</td><td>CLB 11–12</td><td>600–699</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="page" id="page-progress">
+  <div class="ph"><div><div class="ph-eyebrow">Track Everything</div><div class="ph-title">Pro<span>gress</span></div></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">📥 Log Today's Scores</div>
+      <div class="score-form">
+        <label>Reading (0–100)</label>
+        <input type="number" id="sc-r" min="0" max="100" placeholder="e.g. 72">
+        <label>Writing (0–100)</label>
+        <input type="number" id="sc-w" min="0" max="100" placeholder="e.g. 65">
+        <label>Listening (0–100)</label>
+        <input type="number" id="sc-l" min="0" max="100" placeholder="e.g. 68">
+        <label>Speaking (0–100)</label>
+        <input type="number" id="sc-s" min="0" max="100" placeholder="e.g. 60">
+        <button class="btn btn-gold" id="btn-save-scores" style="margin-top:4px">Save Scores</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">📈 Score History</div>
+      <div class="score-hist" id="score-hist"><p style="color:var(--muted);font-size:0.75rem">No scores logged yet.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">🕸 Skill Radar</div>
+    <canvas id="radar-canvas" width="420" height="300"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-head">📓 Daily Notes</div>
+    <textarea id="daily-notes" rows="5" placeholder="What did you study? What was hard? What clicked?"></textarea>
+    <button class="btn btn-outline" id="btn-save-notes" style="margin-top:12px">Save Note</button>
+    <div id="notes-hist" style="margin-top:16px"></div>
+  </div>
+</div>
 
 </main>
 
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PHASES={1:{label:'Foundations',col:'var(--ph1)'},2:{label:'Skill Immersion',col:'var(--ph2)'},3:{label:'Skill + Exam',col:'var(--ph3)'},4:{label:'Exam + Consolidation',col:'var(--ph4)'}};
+
+function getPhase(d){if(d<=4)return 1;if(d<=14)return 2;if(d<=24)return 3;return 4;}
+
+const SCHEDULES={
+  phase1:[
+    {time:'08:00–09:30',name:'Phonics & Present Tense Drill',desc:'Lawless French: pronunciation rules, nasal vowels, liaisons. Conjugate -er/-ir/-re + top 20 irregular verbs.',tag:'grammar',tc:'g'},
+    {time:'09:30–10:30',name:'Anki Vocabulary Session',desc:'100 new cards from French Core 2000. Audio on. No skipping. Review at end.',tag:'vocab',tc:'v'},
+    {time:'10:30–12:00',name:'Past Tenses / Future / Conditional',desc:'Passé composé, imparfait, futur simple, conditionnel. Reverso Conjugator for practice tables.',tag:'grammar',tc:'g'},
+    {time:'12:00–12:30',name:'Break — Passive Immersion',desc:'Eat. Play Français Authentique in background.',tag:'',tc:''},
+    {time:'12:30–13:30',name:'Français Authentique (YouTube)',desc:'Episodes 1–6 with subtitles on. Repeat difficult phrases aloud.',tag:'listen',tc:'l'},
+    {time:'13:30–15:00',name:'Subjunctive + Si-Clauses',desc:'Subjonctif présent/passé. All 3 si-clause types. Write 5 example sentences each.',tag:'grammar',tc:'g'},
+    {time:'15:00–15:30',name:'Anki Review',desc:'Review all morning cards. Bury cards with ease rating 4+.',tag:'vocab',tc:'v'},
+    {time:'15:30–16:00',name:'Write 10 Sentences',desc:'One sentence per tense learned today. Use WordReference for unknowns. Check with LanguageTool.',tag:'write',tc:'w'},
+  ],
+  phase2:[
+    {time:'08:00–09:00',name:'Reading Block 1',desc:'TV5Monde article — scan, annotate 10 unknowns, summarize in 3 French sentences.',tag:'read',tc:'r'},
+    {time:'09:00–10:00',name:'Writing Block 1',desc:'150-word paragraph on today\'s topic. Post on iTalki Notebook for corrections.',tag:'write',tc:'w'},
+    {time:'10:00–11:00',name:'Listening Block 1',desc:'Inner French Podcast — full episode, then shadow 10 min of audio.',tag:'listen',tc:'l'},
+    {time:'11:00–12:00',name:'Speaking Block 1',desc:'Pimsleur / iTalki exchange partner / 3-min recorded monologue on a TCF topic.',tag:'speak',tc:'s'},
+    {time:'12:00–13:00',name:'Break + Passive Immersion',desc:'RFI Journal en Français Facile playing in background.',tag:'',tc:''},
+    {time:'13:00–14:00',name:'Reading Block 2',desc:'Second article, one level harder. Extract vocab list. Build personal Anki deck.',tag:'read',tc:'r'},
+    {time:'14:00–15:00',name:'Writing Block 2',desc:'Opinion paragraph — thesis + 2 arguments + conclusion. LanguageTool.org check.',tag:'write',tc:'w'},
+    {time:'15:00–16:00',name:'Listening Block 2',desc:'News in Slow French or Easy French YouTube. Note 10 new expressions.',tag:'listen',tc:'l'},
+    {time:'16:00–17:00',name:'Speaking Block 2',desc:'Record 3-min monologue. Listen back critically. Note pronunciation errors. Anki review.',tag:'speak',tc:'s'},
+  ],
+  phase3:[
+    {time:'08:00–09:00',name:'Reading — Authentic B2/C1',desc:'Le Monde editorial or France 24 article. 20min vocab extraction after.',tag:'read',tc:'r'},
+    {time:'09:00–10:00',name:'Writing — TCF Format (timed)',desc:'Timed 220-word essay: lettre formelle or article de blog. No aid.',tag:'write',tc:'w'},
+    {time:'10:00–11:00',name:'Listening — France Culture',desc:'15-min clip + shadowing + full comprehension notes.',tag:'listen',tc:'l'},
+    {time:'11:00–12:00',name:'Speaking — Recorded Monologue',desc:'3-min response to TCF topic. Self-evaluate: fluency, accuracy, vocabulary range.',tag:'speak',tc:'s'},
+    {time:'12:00–13:00',name:'Break',desc:'',tag:'',tc:''},
+    {time:'13:00–14:00',name:'Exam — Timed Reading Set',desc:'20 comprehension questions in 60 minutes. TCF/TEF format strictly.',tag:'exam',tc:'e'},
+    {time:'14:00–15:00',name:'Exam — Timed Listening Set',desc:'Official YouTube TCF Canada audio with answer sheet.',tag:'exam',tc:'e'},
+    {time:'15:00–16:00',name:'Exam — Timed Writing Task',desc:'Full TCF writing task under exam conditions. No spellcheck.',tag:'exam',tc:'e'},
+    {time:'16:00–17:00',name:'Exam Review + Error Log',desc:'Categorize every error: grammar / vocab / comprehension strategy. Fix each one.',tag:'exam',tc:'e'},
+  ],
+  phase4:[
+    {time:'08:00–10:00',name:'Full Mock Exam — Part 1',desc:'Reading + Listening components. Strict timer. No pausing. Exam-room simulation.',tag:'exam',tc:'e'},
+    {time:'10:00–12:00',name:'Full Mock Exam — Part 2',desc:'Writing + Speaking (recorded) components under exam conditions.',tag:'exam',tc:'e'},
+    {time:'12:00–13:00',name:'Break',desc:'',tag:'',tc:''},
+    {time:'13:00–14:00',name:'Target Weakness',desc:'Drill the exact skill where you lost most points in the morning exam.',tag:'exam',tc:'e'},
+    {time:'14:00–15:00',name:'Vocabulary Consolidation',desc:'Anki: 20 new cards + all weak cards. Focus on C1-level nuance words.',tag:'vocab',tc:'v'},
+    {time:'15:00–16:00',name:'Listening or Reading (alternate)',desc:'France Culture / Le Monde. Authentic C1-level French. No aids.',tag:'listen',tc:'l'},
+    {time:'16:00–17:00',name:'Speaking — Final Practice',desc:'iTalki session or recorded monologue. Focus on naturalness and fluency. Review.',tag:'speak',tc:'s'},
+  ],
+};
+
+const WRITING_PROMPTS=[
+  {type:'Lettre formelle',p:'Vous avez séjourné dans un hôtel à Montréal et le service était décevant. Écrivez une lettre de réclamation au directeur (180–220 mots).'},
+  {type:'Article de blog',p:'Selon vous, les réseaux sociaux ont-ils un impact positif ou négatif sur la société ? Donnez votre opinion avec des arguments (200 mots).'},
+  {type:'Courriel formel',p:'Vous postulez pour un poste dans une entreprise francophone. Rédigez un courriel de motivation en présentant vos compétences.'},
+  {type:'Opinion',p:'«L\'intelligence artificielle représente plus une menace qu\'une opportunité pour l\'emploi.» Êtes-vous d\'accord ? Justifiez votre point de vue.'},
+  {type:'Description',p:'Décrivez votre ville idéale. Que devrait-elle avoir pour être agréable à vivre ? Quels problèmes devrait-elle éviter ?'},
+  {type:'Lettre formelle',p:'Vous êtes locataire et votre propriétaire refuse de faire des réparations urgentes. Écrivez-lui une lettre officielle exigeant une action immédiate.'},
+  {type:'Compte-rendu',p:'Résumez les avantages et inconvénients du télétravail selon des études récentes que vous auriez consultées (200 mots).'},
+  {type:'Article de blog',p:'Les voyages forment-ils la jeunesse ? Racontez une expérience personnelle et dégagez les leçons apprises.'},
+  {type:'Opinion',p:'Pensez-vous que l\'apprentissage d\'une deuxième langue devrait être obligatoire dans tous les systèmes éducatifs ? Défendez votre position.'},
+  {type:'Synthèse C1',p:'À partir de vos lectures récentes, rédigez une synthèse sur les défis environnementaux auxquels font face les grandes villes (220 mots).'},
+  {type:'Lettre formelle',p:'Rédigez une lettre à votre municipalité pour proposer des améliorations concrètes aux transports en commun de votre quartier.'},
+  {type:'Article de blog',p:'«Mieux vaut prévenir que guérir» — Appliquez ce proverbe au système de santé moderne dans un texte argumentatif de 200 mots.'},
+];
+
+const SPEAKING_TOPICS=[
+  {lv:'B1',t:'Présentez-vous : votre parcours, votre famille, vos projets professionnels. (3 minutes)'},
+  {lv:'B1',t:'Décrivez votre routine quotidienne et ce que vous feriez si vous aviez plus de temps libre.'},
+  {lv:'B2',t:'Pensez-vous que la technologie nous rend plus isolés ou plus connectés ? Donnez des exemples précis.'},
+  {lv:'B2',t:'Quels sont les avantages et inconvénients de vivre dans une grande ville par rapport à la campagne ?'},
+  {lv:'B2',t:'Parlez des changements climatiques : quelles mesures urgentes les gouvernements devraient-ils prendre ?'},
+  {lv:'B2',t:'L\'immigration est un sujet complexe. Quels sont ses effets sur la société d\'accueil — économiques, culturels, sociaux ?'},
+  {lv:'C1',t:'Analysez les causes et conséquences de l\'inégalité économique dans les pays développés. Quelles solutions proposez-vous ?'},
+  {lv:'C1',t:'Comment la numérisation a-t-elle transformé le marché du travail ? Quelles compétences seront essentielles dans 10 ans ?'},
+  {lv:'C1',t:'Débattez : «La liberté d\'expression doit avoir des limites définies par la loi.» Défendez ou réfutez cette affirmation.'},
+  {lv:'C1',t:'Analysez le rôle des médias dans la formation de l\'opinion publique dans une démocratie moderne.'},
+  {lv:'C1',t:'Mondialisation : bénédiction économique ou menace pour les cultures locales ? Construisez un argument nuancé.'},
+  {lv:'C1',t:'Quelle est votre vision de l\'enseignement idéal ? Comment reformeriez-vous le système éducatif de votre pays ?'},
+];
+
+const TOPIC_CLUSTERS=[
+  {n:'Environnement',w:['le réchauffement climatique','les énergies renouvelables','la biodiversité','le développement durable','les émissions de carbone','la déforestation','la pollution','l\'écosystème','la transition énergétique','le tri sélectif']},
+  {n:'Travail & Économie',w:['le marché du travail','le chômage','les compétences','la reconversion','le télétravail','le salaire minimum','la productivité','l\'entrepreneuriat','la mondialisation','la startup']},
+  {n:'Santé',w:['le système de santé','la prévention','le médecin généraliste','la chirurgie','le remboursement','l\'assurance maladie','le bien-être','la santé mentale','les maladies chroniques','la vaccination']},
+  {n:'Technologie',w:['l\'intelligence artificielle','les réseaux sociaux','la cybersécurité','le numérique','les données personnelles','l\'innovation','la robotisation','le cloud','les algorithmes','la vie privée']},
+  {n:'Éducation',w:['le cursus scolaire','le diplôme','l\'apprentissage','la formation continue','les inégalités scolaires','le tutorat','les bourses','l\'enseignement supérieur','l\'alphabétisation','la pédagogie']},
+  {n:'Société & Culture',w:['la diversité culturelle','l\'intégration','les droits de l\'homme','la laïcité','la citoyenneté','les inégalités sociales','la mobilité sociale','le patrimoine','les valeurs','la solidarité']},
+  {n:'Immigration',w:['l\'immigration','le statut de réfugié','la résidence permanente','la naturalisation','l\'identité culturelle','le multiculturalisme','le pays d\'accueil','le visa','la diaspora','la demande d\'asile']},
+  {n:'Politique',w:['le gouvernement','les élections','la démocratie','la loi','le parlement','le droit de vote','la politique publique','le budget','les impôts','la Constitution']},
+  {n:'Voyages & Géographie',w:['le transport','les frontières','le tourisme durable','le patrimoine mondial','le visa de travail','la carte de séjour','la province','la région','la métropole','l\'aéroport']},
+];
+
+const GRAMMAR_ITEMS={
+  'Phase 1 — Days 1–4':['Présent indicatif (-er, -ir, -re + irréguliers)','Passé composé (avoir + être, accords participe)','Imparfait (formation + usage vs passé composé)','Plus-que-parfait','Futur simple (régulier + irrégulier)','Futur proche (aller + infinitif)','Conditionnel présent','Conditionnel passé','Si-clauses (Types 1, 2, 3)','Subjonctif présent (formation)','Subjonctif passé','Négation complète (jamais, rien, que…)','Questions (inversion, est-ce que, in situ)'],
+  'Phase 2 — Days 5–14':['Pronoms relatifs (qui, que, dont, où, lequel)','Pronoms COD et COI','Pronoms y et en','Discours indirect (concordance des temps)','Voix passive (être + participe passé)','Participe présent et gérondif','Articles (défini, indéfini, partitif)','Comparatif et superlatif','Adverbes de manière, fréquence, intensité','Ordre des mots avec double pronom'],
+  'Phase 3 — Days 15–24':['Subjonctif: tous les cas et triggers','Infinitif passé (après avoir/être + pp)','Connecteurs logiques (opposition, cause, conséquence)','Nominalisation (verbe → nom)','Expression du temps (depuis, pendant, il y a, dans)','Hypothèse et nuance (peut-être, il se peut que…)','Registres: formel vs informel','Structures emphatiques (c\'est… que/qui)'],
+  'Phase 4 — Days 25–40':['Révision ciblée des erreurs récurrentes','Vocabulaire de la nuance et de l\'atténuation','Cohérence textuelle et connecteurs C1','Inversion dans les phrases complexes','Subjonctif imparfait (reconnaissance passive)','Maîtrise des registres dans l\'écrit et l\'oral'],
+};
+
+const MINI_TESTS=[
+  {passage:'Le télétravail s\'est considérablement développé depuis la pandémie de 2020. Si certaines entreprises y voient un moyen d\'améliorer la productivité et de réduire les coûts immobiliers, d\'autres craignent une perte de cohésion d\'équipe et de créativité collective. Une étude publiée en 2023 révèle que 67% des employés préfèrent un modèle hybride, combinant présence au bureau et travail à domicile.',
+   q:'Selon le texte, quelle est l\'attitude des employés face au télétravail ?',
+   opts:['La majorité préfère travailler entièrement à domicile.','La plupart souhaitent un système mixte bureau/domicile.','Ils sont contre le télétravail à cause de la solitude.','Les employés veulent retourner entièrement au bureau.'],ans:1,
+   expl:'Le texte indique que 67% des employés préfèrent un modèle «hybride», soit une combinaison des deux modes.'},
+  {passage:'La biodiversité mondiale est menacée par plusieurs facteurs conjugués : la déforestation, la pollution des eaux, les changements climatiques et la surexploitation des ressources naturelles. Selon l\'IPBES, un million d\'espèces risquent de disparaître si des mesures urgentes ne sont pas prises. Les scientifiques appellent à une transition profonde dans nos modèles de production et de consommation.',
+   q:'Quelle est la principale conclusion des scientifiques mentionnés dans ce texte ?',
+   opts:['Il faut interdire toute activité humaine en forêt.','La pollution de l\'eau est le seul problème à résoudre.','Un changement radical de nos habitudes économiques est nécessaire.','Les espèces en danger peuvent se rétablir naturellement.'],ans:2,
+   expl:'Les scientifiques demandent «une transition profonde dans nos modèles de production et de consommation», soit un changement structurel majeur.'},
+  {passage:'L\'apprentissage d\'une langue étrangère présente de nombreux avantages cognitifs. Des recherches en neurosciences suggèrent que le bilinguisme retarderait l\'apparition des symptômes de la maladie d\'Alzheimer de quatre à cinq ans en moyenne. Par ailleurs, les personnes bilingues démontrent de meilleures capacités d\'attention sélective et de résolution de problèmes complexes.',
+   q:'Selon les recherches, quel est l\'un des bénéfices du bilinguisme ?',
+   opts:['Il permet de guérir la maladie d\'Alzheimer.','Il améliore la mémoire à court terme uniquement.','Il peut repousser les symptômes d\'une maladie neurodégénérative.','Il rend les bilingues plus intelligents que les monolingues.'],ans:2,
+   expl:'Le texte dit que le bilinguisme «retarderait l\'apparition des symptômes» — repousser, pas guérir.'},
+  {passage:'Les villes intelligentes, ou «smart cities», intègrent les technologies numériques pour optimiser la gestion des services urbains : transports, énergie, déchets, eau. Bien que prometteuses, ces initiatives soulèvent des questions cruciales sur la protection des données personnelles et la surveillance des citoyens. Certains experts estiment que sans cadre juridique solide, les smart cities pourraient se transformer en outils de contrôle social.',
+   q:'Quelle préoccupation les experts soulèvent-ils concernant les smart cities ?',
+   opts:['Le coût trop élevé des infrastructures.','Le risque d\'utilisation des données à des fins de contrôle.','L\'inefficacité des technologies dans la gestion des déchets.','Le manque d\'intérêt des citoyens pour ces innovations.'],ans:1,
+   expl:'Les experts craignent que les smart cities deviennent des «outils de contrôle social» sans cadre légal adéquat.'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const SK='frC1v2';
+function loadState(){try{const s=localStorage.getItem(SK);return s?JSON.parse(s):null}catch(e){return null}}
+function saveState(){localStorage.setItem(SK,JSON.stringify(ST))}
+let ST=loadState()||{day:1,done:[],scores:[],notes:[],pi:0,ti:0,qi:0};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+document.querySelectorAll('.nav a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const pg=a.dataset.page;
+    document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+pg).classList.add('active');
+    if(pg==='progress')drawRadar();
+  });
+});
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function updateDashboard(){
+  const d=ST.day,ph=getPhase(d);
+  document.getElementById('s-day').textContent=d;
+  document.getElementById('s-phase').textContent=ph;
+  document.getElementById('s-phase-lbl').textContent=PHASES[ph].label;
+  document.getElementById('s-hours').textContent=ST.done.length*8;
+  document.getElementById('day-num').textContent=d;
+  const pct=Math.round(ST.done.length/40*100);
+  document.getElementById('pbar-pct').textContent=pct+'%';
+  document.getElementById('pbar').style.width=pct+'%';
+  // phase badge
+  const pb=document.getElementById('ph-badge');
+  pb.className='ph-badge ph'+ph;
+  pb.textContent='● Phase '+ph;
+  // timeline highlight
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('tl'+i);
+    el.classList.toggle('active',i===ph);
+  }
+  renderTodaySched(d);
+  renderCalendar();
+}
+
+function renderTodaySched(d){
+  const key='phase'+getPhase(d);
+  const cont=document.getElementById('today-sched');
+  cont.innerHTML='';
+  SCHEDULES[key].forEach(b=>{
+    if(!b.tag)return;
+    const div=document.createElement('div');
+    div.className='ts-item '+b.tc;
+    div.innerHTML=`<span class="ts-time">${b.time}</span><span class="ts-name">${b.name}</span><span class="ts-tag tag-${b.tc}">${b.tag}</span>`;
+    cont.appendChild(div);
+  });
+}
+
+function renderCalendar(){
+  const g=document.getElementById('cal-grid');
+  g.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const div=document.createElement('div');
+    const ph=getPhase(i);
+    const done=ST.done.includes(i);
+    const today=i===ST.day;
+    div.className=`cal-day p${ph}${done?' done':''}${today?' today':''}`;
+    div.innerHTML=`<span class="dn">${i}</span><span class="dp">P${ph}</span>`;
+    div.title=`Day ${i} — Phase ${ph}: ${PHASES[ph].label}`;
+    g.appendChild(div);
+  }
+}
+
+document.getElementById('btn-advance').addEventListener('click',()=>{
+  if(!ST.done.includes(ST.day))ST.done.push(ST.day);
+  if(ST.day<40)ST.day++;
+  saveState();updateDashboard();
+});
+
+// ============================================================
+// SCHEDULE PAGE
+// ============================================================
+function renderSched(key){
+  const cont=document.getElementById('sched-content');cont.innerHTML='';
+  const tagCls={grammar:'tag-g',vocab:'tag-v',read:'tag-r',write:'tag-w',listen:'tag-l',speak:'tag-s',exam:'tag-e'};
+  SCHEDULES[key].forEach(b=>{
+    const div=document.createElement('div');
+    div.className='tb';
+    div.style.opacity=b.tag?'1':'0.35';
+    div.innerHTML=`<div class="tb-time">${b.time}</div><div style="flex:1"><div class="tb-name">${b.name||'— Break / Passive Immersion —'}</div><div class="tb-desc">${b.desc||'Rest, eat, play French radio in background.'}</div></div>${b.tag?`<span class="ts-tag ${tagCls[b.tc]||''} tb-tag">${b.tag}</span>`:''}`;
+    cont.appendChild(div);
+  });
+}
+document.querySelectorAll('.stab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    renderSched(t.dataset.s);
+  });
+});
+
+// ============================================================
+// VOCABULARY CLUSTERS
+// ============================================================
+function renderClusters(){
+  const c=document.getElementById('clusters');c.innerHTML='';
+  TOPIC_CLUSTERS.forEach(cl=>{
+    const div=document.createElement('div');div.className='cluster';
+    div.innerHTML=`<h3>${cl.n}</h3><ul>${cl.w.map(w=>`<li>${w}</li>`).join('')}</ul>`;
+    c.appendChild(div);
+  });
+}
+
+// ============================================================
+// GRAMMAR CHECKLIST
+// ============================================================
+function renderGCL(){
+  const c=document.getElementById('gcl');c.innerHTML='';
+  const cls=['g1','g2','g3','g4'];
+  Object.entries(GRAMMAR_ITEMS).forEach(([sec,items],i)=>{
+    const div=document.createElement('div');div.className='gs '+cls[i];
+    div.innerHTML=`<h3>${sec}</h3><ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    c.appendChild(div);
+  });
+}
+
+// ============================================================
+// WRITING PROMPTS
+// ============================================================
+function renderPrompt(){
+  const p=WRITING_PROMPTS[ST.pi%WRITING_PROMPTS.length];
+  document.getElementById('prompt-card').innerHTML=`<div class="prompt-card"><div class="prompt-type">${p.type}</div>${p.p}</div>`;
+}
+document.getElementById('btn-prompt').addEventListener('click',()=>{ST.pi++;saveState();renderPrompt();});
+
+// ============================================================
+// SPEAKING TOPICS
+// ============================================================
+function renderTopic(){
+  const t=SPEAKING_TOPICS[ST.ti%SPEAKING_TOPICS.length];
+  document.getElementById('topic-card').innerHTML=`<div class="topic-card"><div class="topic-lv">Niveau ${t.lv}</div>${t.t}</div>`;
+}
+document.getElementById('btn-topic').addEventListener('click',()=>{ST.ti++;saveState();renderTopic();});
+
+// ============================================================
+// MINI TEST
+// ============================================================
+let testAnswered=false;
+function renderTest(){
+  const t=MINI_TESTS[ST.qi%MINI_TESTS.length];
+  testAnswered=false;
+  const c=document.getElementById('mini-test');
+  c.innerHTML=`
+    <div class="mt-passage">${t.passage}</div>
+    <div class="mt-q">${t.q}</div>
+    <div class="mt-opts">${t.opts.map((o,i)=>`<button class="mt-opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+    <div id="mt-fb"></div>
+    <button class="btn btn-outline" id="btn-nxt" style="margin-top:14px">Next Question →</button>`;
+  c.querySelectorAll('.mt-opt').forEach(b=>{
+    b.addEventListener('click',()=>{
+      if(testAnswered)return;testAnswered=true;
+      const ch=+b.dataset.i,ans=t.ans;
+      c.querySelectorAll('.mt-opt').forEach((x,i)=>{
+        if(i===ans)x.classList.add('correct');
+        else if(i===ch&&ch!==ans)x.classList.add('wrong');
+        x.disabled=true;
+      });
+      const fb=document.getElementById('mt-fb');
+      if(ch===ans){fb.className='mt-fb ok';fb.textContent='✓ Correct ! '+t.expl;}
+      else{fb.className='mt-fb no';fb.textContent='✗ Incorrect. '+t.expl;}
+    });
+  });
+  document.getElementById('btn-nxt').addEventListener('click',()=>{ST.qi++;saveState();renderTest();});
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+document.getElementById('btn-save-scores').addEventListener('click',()=>{
+  const r=+document.getElementById('sc-r').value||0;
+  const w=+document.getElementById('sc-w').value||0;
+  const l=+document.getElementById('sc-l').value||0;
+  const s=+document.getElementById('sc-s').value||0;
+  if(!r&&!w&&!l&&!s)return;
+  ST.scores.push({day:ST.day,r,w,l,s});saveState();
+  renderScoreHist();drawRadar();
+  ['sc-r','sc-w','sc-l','sc-s'].forEach(id=>document.getElementById(id).value='');
+});
+
+function renderScoreHist(){
+  const c=document.getElementById('score-hist');c.innerHTML='';
+  if(!ST.scores.length){c.innerHTML='<p style="color:var(--muted);font-size:0.75rem">No scores yet.</p>';return;}
+  [...ST.scores].reverse().forEach(e=>{
+    const d=document.createElement('div');d.className='s-entry';
+    d.innerHTML=`<div class="s-entry-day">Day ${e.day}</div><div class="s-pills"><span class="s-pill">Read ${e.r}</span><span class="s-pill">Write ${e.w}</span><span class="s-pill">Listen ${e.l}</span><span class="s-pill">Speak ${e.s}</span></div>`;
+    c.appendChild(d);
+  });
+}
+
+function drawRadar(){
+  const canvas=document.getElementById('radar-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const W=420,H=300;canvas.width=W;canvas.height=H;ctx.clearRect(0,0,W,H);
+  const latest=ST.scores.length?ST.scores[ST.scores.length-1]:{r:0,w:0,l:0,s:0};
+  const vals=[latest.r,latest.w,latest.l,latest.s];
+  const labels=['Reading','Writing','Listening','Speaking'];
+  const cx=W/2,cy=H/2+10,R=105;
+  const angles=labels.map((_,i)=>i*Math.PI*2/4-Math.PI/2);
+  // grid rings
+  for(let lv=1;lv<=5;lv++){
+    ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1;
+    angles.forEach((a,i)=>{const rr=R*lv/5;const x=cx+rr*Math.cos(a);const y=cy+rr*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+    ctx.closePath();ctx.stroke();
+  }
+  // axes
+  angles.forEach(a=>{ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.stroke();});
+  // data polygon
+  ctx.beginPath();ctx.fillStyle='rgba(245,200,66,0.15)';ctx.strokeStyle='#f5c842';ctx.lineWidth=2;
+  angles.forEach((a,i)=>{const rr=R*vals[i]/100;const x=cx+rr*Math.cos(a);const y=cy+rr*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.closePath();ctx.fill();ctx.stroke();
+  // dots
+  angles.forEach((a,i)=>{const rr=R*vals[i]/100;ctx.beginPath();ctx.arc(cx+rr*Math.cos(a),cy+rr*Math.sin(a),4,0,Math.PI*2);ctx.fillStyle='#f5c842';ctx.fill();});
+  // labels
+  ctx.textAlign='center';
+  angles.forEach((a,i)=>{
+    const lx=cx+(R+28)*Math.cos(a),ly=cy+(R+28)*Math.sin(a);
+    ctx.fillStyle='#8b88aa';ctx.font='11px IBM Plex Mono,monospace';ctx.fillText(labels[i],lx,ly+3);
+    ctx.fillStyle='#f5c842';ctx.font='bold 10px IBM Plex Mono,monospace';ctx.fillText(vals[i],lx,ly+14);
+  });
+  const avg=Math.round(vals.reduce((a,b)=>a+b,0)/4);
+  ctx.fillStyle='#f5c842';ctx.font='bold 13px IBM Plex Mono,monospace';ctx.textAlign='center';
+  ctx.fillText(avg?'Avg: '+avg:'No data yet',cx,cy+4);
+}
+
+document.getElementById('btn-save-notes').addEventListener('click',()=>{
+  const txt=document.getElementById('daily-notes').value.trim();
+  if(!txt)return;
+  ST.notes.push({day:ST.day,txt});saveState();renderNotes();
+  document.getElementById('daily-notes').value='';
+});
+
+function renderNotes(){
+  const c=document.getElementById('notes-hist');c.innerHTML='';
+  [...ST.notes].reverse().slice(0,10).forEach(n=>{
+    const div=document.createElement('div');div.className='note-entry';
+    div.innerHTML=`<div class="note-day">Day ${n.day}</div>${n.txt}`;
+    c.appendChild(div);
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init(){
+  updateDashboard();
+  renderSched('phase1');
+  renderClusters();
+  renderGCL();
+  renderPrompt();
+  renderTopic();
+  renderTest();
+  renderScoreHist();
+  renderNotes();
+}
+init();
+</script>
 </body>
 </html>
