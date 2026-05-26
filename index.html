@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>French C1 — 40 Day Mission</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-fr">FR</span>
+    <span class="logo-text">C1 Mission</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="nav-link active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</a></li>
+    <li><a href="#" class="nav-link" data-page="syllabus"><span class="nav-icon">◈</span>Syllabus</a></li>
+    <li><a href="#" class="nav-link" data-page="schedule"><span class="nav-icon">◷</span>Schedule</a></li>
+    <li><a href="#" class="nav-link" data-page="vocabulary"><span class="nav-icon">◆</span>Vocabulary</a></li>
+    <li><a href="#" class="nav-link" data-page="grammar"><span class="nav-icon">§</span>Grammar</a></li>
+    <li><a href="#" class="nav-link" data-page="listening"><span class="nav-icon">◎</span>Listening</a></li>
+    <li><a href="#" class="nav-link" data-page="reading"><span class="nav-icon">≡</span>Reading</a></li>
+    <li><a href="#" class="nav-link" data-page="writing"><span class="nav-icon">✎</span>Writing</a></li>
+    <li><a href="#" class="nav-link" data-page="speaking"><span class="nav-icon">◉</span>Speaking</a></li>
+    <li><a href="#" class="nav-link" data-page="exams"><span class="nav-icon">✦</span>Mock Exams</a></li>
+    <li><a href="#" class="nav-link" data-page="progress"><span class="nav-icon">↗</span>Progress</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    <div class="phase-badge" id="current-phase-badge">Phase 1</div>
+    <div class="sidebar-day">Day <span id="sidebar-day-num">1</span> / 40</div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main-content">
+
+  <!-- DASHBOARD PAGE -->
+  <div class="page active" id="page-dashboard">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">Bonjour — Let's get to work</p>
+        <h1 class="page-title">Mission Française</h1>
+      </div>
+      <div class="header-meta">
+        <button class="btn-primary" id="advance-day-btn">Mark Today Complete →</button>
+      </div>
+    </header>
+
+    <div class="stats-row">
+      <div class="stat-card accent">
+        <div class="stat-label">Current Day</div>
+        <div class="stat-value" id="stat-day">1</div>
+        <div class="stat-sub">of 40</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Phase</div>
+        <div class="stat-value" id="stat-phase">1</div>
+        <div class="stat-sub" id="stat-phase-label">Foundations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Hours Invested</div>
+        <div class="stat-value" id="stat-hours">0</div>
+        <div class="stat-sub">of 320 total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Target</div>
+        <div class="stat-value gold">C1</div>
+        <div class="stat-sub">Floor: B2 / CLB 7</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-label">
+        <span>Overall Mission Progress</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="main-progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h2 class="card-title">Today's Schedule</h2>
+        <div id="todays-schedule" class="schedule-list"></div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Phase Overview</h2>
+        <div class="phases-timeline">
+          <div class="phase-item" id="ph1">
+            <div class="phase-dot"></div>
+            <div class="phase-info">
+              <strong>Phase 1</strong> — Days 1–4
+              <p>Tenses, core vocabulary, phonics, survival grammar</p>
+            </div>
+          </div>
+          <div class="phase-item" id="ph2">
+            <div class="phase-dot"></div>
+            <div class="phase-info">
+              <strong>Phase 2</strong> — Days 5–14
+              <p>4×2h skill blocks: Reading · Writing · Listening · Speaking</p>
+            </div>
+          </div>
+          <div class="phase-item" id="ph3">
+            <div class="phase-dot"></div>
+            <div class="phase-info">
+              <strong>Phase 3</strong> — Days 15–24
+              <p>4h skill blocks + 4h exam practice</p>
+            </div>
+          </div>
+          <div class="phase-item" id="ph4">
+            <div class="phase-dot"></div>
+            <div class="phase-info">
+              <strong>Phase 4</strong> — Days 25–40
+              <p>4h exam first + 4h skill consolidation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">40-Day Calendar</h2>
+      <div class="calendar-grid" id="calendar-grid"></div>
+    </div>
+  </div>
+
+  <!-- SYLLABUS PAGE -->
+  <div class="page" id="page-syllabus">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">Complete Curriculum</p>
+        <h1 class="page-title">Syllabus</h1>
+      </div>
+    </header>
+    <div class="syllabus-phases">
+
+      <div class="syllabus-phase">
+        <div class="syllabus-phase-header ph1">Phase 1 — Days 1–4 · The Core Install</div>
+        <div class="syllabus-grid">
+          <div class="syllabus-item">
+            <h3>Day 1 — Phonics + Present Tense</h3>
+            <ul>
+              <li>French alphabet and pronunciation rules (nasal vowels, silent letters, liaisons)</li>
+              <li>Présent indicatif: -er, -ir, -re verbs</li>
+              <li>Top 20 irregular verbs: être, avoir, aller, faire, pouvoir, vouloir, savoir, venir, voir, prendre + 10 more</li>
+              <li>Anki: Install French Core 2000 deck — do cards 1–100</li>
+              <li>Resource: Français Authentique (YouTube) — Episodes 1–5</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Day 2 — Past Tenses</h3>
+            <ul>
+              <li>Passé composé: avoir + être auxiliaries, past participle agreement</li>
+              <li>Imparfait: formation and usage contrast with passé composé</li>
+              <li>Plus-que-parfait (past perfect)</li>
+              <li>Passé récent: venir de + infinitif</li>
+              <li>Anki: cards 101–200</li>
+              <li>Write 10 sentences about your past in French</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Day 3 — Future + Conditional</h3>
+            <ul>
+              <li>Futur simple: regular + irregular stems</li>
+              <li>Futur proche: aller + infinitif</li>
+              <li>Conditionnel présent: formation and polite use</li>
+              <li>Conditionnel passé: regrets and hypotheticals</li>
+              <li>Si clauses: Type 1, 2, 3</li>
+              <li>Anki: cards 201–300</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Day 4 — Subjunctive + Core Vocab Consolidation</h3>
+            <ul>
+              <li>Subjonctif présent: formation and key triggers (vouloir que, il faut que, bien que…)</li>
+              <li>Subjonctif passé</li>
+              <li>Negation: ne…pas, ne…plus, ne…jamais, ne…que, ne…rien, ne…personne</li>
+              <li>Question forms: inversion, est-ce que, in-situ</li>
+              <li>Anki: cards 301–400 + review 1–300</li>
+              <li>Core topic vocabulary clusters: Family, Food, Travel, Work, Health</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="syllabus-phase">
+        <div class="syllabus-phase-header ph2">Phase 2 — Days 5–14 · Skill Immersion (8h/day, 4 skills × 2h)</div>
+        <div class="syllabus-grid">
+          <div class="syllabus-item">
+            <h3>Reading (1hr blocks)</h3>
+            <ul>
+              <li>Days 5–7: TV5Monde articles (B1) + Le Monde Facile</li>
+              <li>Days 8–10: Short stories — "Le Petit Prince" chapters 1–8</li>
+              <li>Days 11–14: Le Monde / France 24 — authentic news articles</li>
+              <li>Technique: read once for gist, annotate unknowns, re-read for detail</li>
+              <li>Build personal vocab list from readings (50 words/day)</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Writing (1hr blocks)</h3>
+            <ul>
+              <li>Days 5–7: Paragraph writing — descriptions (150 words)</li>
+              <li>Days 8–10: Opinion essays — introduce thesis + 2 arguments (200 words)</li>
+              <li>Days 11–14: Formal letters and emails (standard TCF/TEF formats)</li>
+              <li>Tool: LanguageTool.org for free grammar checking</li>
+              <li>Post on iTalki Notebook for native corrections</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Listening (1hr blocks)</h3>
+            <ul>
+              <li>Days 5–7: Inner French Podcast — episodes 1–7 (B1 level, slow clear French)</li>
+              <li>Days 8–10: News in Slow French — intermediate series</li>
+              <li>Days 11–14: RFI Savoirs, France Inter short clips, YouTube: Easy French</li>
+              <li>Technique: listen once without subtitles → transcribe key points → verify</li>
+              <li>Shadow 5 min of audio per session (repeat aloud at native speed)</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Speaking (1hr blocks)</h3>
+            <ul>
+              <li>Days 5–7: Pimsleur French 1 (free via library app Libby)</li>
+              <li>Days 8–10: iTalki community tutors (affordable) — 2×30min sessions</li>
+              <li>Days 11–14: Record yourself on common TCF topics. Listen back critically.</li>
+              <li>Core topics: se présenter, opinion sur l'environnement, technologie, éducation</li>
+              <li>Shadowing: 10min/day — repeat podcast audio verbatim</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="syllabus-phase">
+        <div class="syllabus-phase-header ph3">Phase 3 — Days 15–24 · Skill + Exam (4h+4h)</div>
+        <div class="syllabus-grid">
+          <div class="syllabus-item">
+            <h3>First 4 Hours — Skill Practice</h3>
+            <ul>
+              <li>1h Reading: Authentic B2-C1 texts — Le Monde editorials, literary excerpts</li>
+              <li>1h Writing: TCF-format essays (synthesis writing, article de blog, lettre formelle)</li>
+              <li>1h Listening: France Culture podcasts, TED-style conferences in French</li>
+              <li>1h Speaking: Record 3-min monologue on a new topic daily. Compare to model.</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Second 4 Hours — Exam Practice</h3>
+            <ul>
+              <li>TCF Canada / TEF Canada format familiarisation</li>
+              <li>Timed reading comprehension sets (20 questions / 60 min)</li>
+              <li>Timed listening sets — use official YouTube practice audio</li>
+              <li>Writing: 1 timed essay under exam conditions</li>
+              <li>Review all errors immediately; categorize by grammar / vocab / strategy</li>
+              <li>Free resource: CLE International TCF practice (archive.org)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="syllabus-phase">
+        <div class="syllabus-phase-header ph4">Phase 4 — Days 25–40 · Exam First (4h exam + 4h skill)</div>
+        <div class="syllabus-grid">
+          <div class="syllabus-item">
+            <h3>First 4 Hours — Full Mock Exams</h3>
+            <ul>
+              <li>Full TCF/TEF simulation under strict timed conditions</li>
+              <li>Rotate: Mon/Wed/Fri full exam — Tue/Thu/Sat/Sun section drills</li>
+              <li>Track score per section: target CLB 7 in each</li>
+              <li>Free mock tests: see Mock Exams page</li>
+              <li>Analyse performance trends — double down on weakest skill</li>
+            </ul>
+          </div>
+          <div class="syllabus-item">
+            <h3>Second 4 Hours — Consolidation</h3>
+            <ul>
+              <li>1h: Target weakness from morning exam</li>
+              <li>1h: Vocabulary — Anki + high-frequency C1 word list</li>
+              <li>1h: Listening or reading (alternate days)</li>
+              <li>1h: Speaking — iTalki session or self-recording + review</li>
+              <li>Final week: only exam simulations + targeted micro-practice</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCHEDULE PAGE -->
+  <div class="page" id="page-schedule">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">Daily Structure</p>
+        <h1 class="page-title">Schedule</h1>
+      </div>
+    </header>
+    <div class="schedule-tabs">
+      <button class="sched-tab active" data-sched="phase1">Phase 1 (Days 1–4)</button>
+      <button class="sched-tab" data-sched="phase2">Phase 2 (Days 5–14)</button>
+      <button class="sched-tab" data-sched="phase3">Phase 3 (Days 15–24)</button>
+      <button class="sched-tab" data-sched="phase4">Phase 4 (Days 25–40)</button>
+    </div>
+    <div class="schedule-content" id="schedule-content"></div>
+  </div>
+
+  <!-- VOCABULARY PAGE -->
+  <div class="page" id="page-vocabulary">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">Build Your Bank</p>
+        <h1 class="page-title">Vocabulary</h1>
+      </div>
+    </header>
+    <div class="two-col">
+      <div class="card">
+        <h2 class="card-title">Free Resources</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://ankiweb.net/shared/info/893324022" target="_blank">
+            <span class="res-icon">▶</span>
+            <div><strong>Anki — French Core 2000</strong><p>2000 most common French words with audio. Free on AnkiWeb.</p></div>
+          </a>
+          <a class="resource-item" href="https://www.wordreference.com" target="_blank">
+            <span class="res-icon">▶</span>
+            <div><strong>WordReference.com</strong><p>Best free French-English dictionary. Includes forum discussions for nuance.</p></div>
+          </a>
+          <a class="resource-item" href="https://www.larousse.fr/dictionnaires/francais" target="_blank">
+            <span class="res-icon">▶</span>
+            <div><strong>Larousse Dictionary</strong><p>Official French monolingual dictionary. Use it from Day 15+.</p></div>
+          </a>
+          <a class="resource-item" href="https://conjugueur.reverso.net" target="_blank">
+            <span class="res-icon">▶</span>
+            <div><strong>Reverso Conjugator</strong><p>Every verb conjugation, every tense. Free and comprehensive.</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Daily Targets</h2>
+        <div class="vocab-targets">
+          <div class="vocab-target-row"><span>Days 1–4</span><strong>100 words/day (Anki)</strong></div>
+          <div class="vocab-target-row"><span>Days 5–14</span><strong>50 new + 50 review/day</strong></div>
+          <div class="vocab-target-row"><span>Days 15–24</span><strong>30 new + 70 review/day</strong></div>
+          <div class="vocab-target-row"><span>Days 25–40</span><strong>20 new + review all weak cards</strong></div>
+          <div class="vocab-target-row total"><span>Total target</span><strong>~2000 active words</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">TCF/TEF Topic Vocabulary Clusters</h2>
+      <div class="topic-clusters" id="topic-clusters"></div>
+    </div>
+  </div>
+
+  <!-- GRAMMAR PAGE -->
+  <div class="page" id="page-grammar">
+    <header class="page-header">
+      <div>
+        <p class="page-eyebrow">Structure & Rules</p>
+        <h1 class="page-title">Grammar</h1>
+      </div>
+    </header>
+    <div class="card">
+      <h2 class="card-title">Free Grammar Resources</h2>
+      <div class="resource-list">
+        <a class="resource-item" href="https://www.lawlessfrench.com" target="_blank">
+          <span class="res-icon">▶</span>
+          <div><strong>Lawless French</strong><p>Comprehensive free grammar reference. Best organized site for learners.</p></div>
+        </a>
+        <a class="resource-item" href="https://conjugueur.reverso.net" target="_blank">
+          <span class="res-icon">▶</span>
+          <div><strong>Reverso Conjugator</strong><p>All verb forms, all tenses, free.</p></div>
+        </a>
+        <a class="resource-item" href="https://www.languageguide.org/french/grammar/" target="_blank">
+          <span class="res-icon">▶</span>
+          <div><strong>Language Guide — French Grammar</strong><p>Interactive grammar guide with audio.</p></div>
+        </a>
+        <a class="resource-item" href="https://kwiziq.com" target="_blank">
+          <span class="res-icon">▶</span>
+          <div><strong>Kwiziq French</strong><p>AI-powered grammar quizzes. Free tier covers B1 content.</p></div>
+        </a>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">Grammar Checklist by Phase</h2>
+      <div class="grammar-checklist" id="grammar-checklist"></div>
+    </div>
+  </div>
+
+  <!-- LISTENING PAGE -->
+  <div class="page" id="page-listening">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Train Your Ear</p><h1 class="page-title">Listening</h1></div>
+    </header>
+    <div class="resource-grid">
+      <div class="card">
+        <h2 class="card-title">Podcasts</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://innerfrench.com/podcast/" target="_blank"><span class="res-icon">▶</span><div><strong>Inner French Podcast</strong><p>Slow, clear French designed for intermediate learners. Start here Day 5.</p></div></a>
+          <a class="resource-item" href="https://www.newsinslowfrench.com" target="_blank"><span class="res-icon">▶</span><div><strong>News in Slow French</strong><p>Weekly news at reduced speed. Free episodes available.</p></div></a>
+          <a class="resource-item" href="https://www.rfi.fr/fr/podcasts/journal-en-francais-facile/" target="_blank"><span class="res-icon">▶</span><div><strong>RFI — Journal en Français Facile</strong><p>Daily 10-min news at learner pace. Transcript available. 100% free.</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">YouTube Channels</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://www.youtube.com/@EasyFrench" target="_blank"><span class="res-icon">▶</span><div><strong>Easy French</strong><p>Street interviews with dual subtitles. Authentic natural speech.</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@francaisauthentique" target="_blank"><span class="res-icon">▶</span><div><strong>Français Authentique</strong><p>Johan's channel. Slow, clear, methodical. Perfect for Phase 1.</p></div></a>
+          <a class="resource-item" href="https://www.youtube.com/@FranceInter" target="_blank"><span class="res-icon">▶</span><div><strong>France Inter</strong><p>Real French radio — use from Day 20+ for authentic exposure.</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Technique: Shadowing Protocol</h2>
+        <ol class="protocol-list">
+          <li>Pick a 2-minute audio clip at your level</li>
+          <li>Listen once without looking at transcript</li>
+          <li>Listen again, read transcript simultaneously</li>
+          <li>Pause every sentence. Repeat aloud verbatim.</li>
+          <li>Play full clip again — shadow without pausing</li>
+          <li>Do this 10min/day minimum from Day 5</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- READING PAGE -->
+  <div class="page" id="page-reading">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Expand Your Comprehension</p><h1 class="page-title">Reading</h1></div>
+    </header>
+    <div class="resource-grid">
+      <div class="card">
+        <h2 class="card-title">Graded by Phase</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://apprendre.tv5monde.com/fr" target="_blank"><span class="res-icon">▶</span><div><strong>TV5Monde — A2/B1</strong><p>Articles with built-in comprehension exercises. Free. Start Day 5.</p></div></a>
+          <a class="resource-item" href="https://www.lemonde.fr/campus/" target="_blank"><span class="res-icon">▶</span><div><strong>Le Monde Campus — B1/B2</strong><p>Education section uses clearer language than main paper. Day 10+.</p></div></a>
+          <a class="resource-item" href="https://www.france24.com/fr/" target="_blank"><span class="res-icon">▶</span><div><strong>France 24 — B2</strong><p>International news in French. Excellent for TCF reading topics. Day 12+.</p></div></a>
+          <a class="resource-item" href="https://www.gutenberg.org/browse/languages/fr" target="_blank"><span class="res-icon">▶</span><div><strong>Project Gutenberg — French Classics</strong><p>Free public domain French literature. Le Petit Prince, Maupassant.</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Reading Technique</h2>
+        <ol class="protocol-list">
+          <li><strong>Scan</strong> — title, headings, first sentence of each paragraph</li>
+          <li><strong>Read for gist</strong> — don't stop for unknown words</li>
+          <li><strong>Annotate</strong> — circle max 10 unknown words per article</li>
+          <li><strong>Look up</strong> — only the most frequent-seeming unknowns</li>
+          <li><strong>Re-read</strong> — now with comprehension</li>
+          <li><strong>Summarize</strong> — write 3 sentences about the article in French</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- WRITING PAGE -->
+  <div class="page" id="page-writing">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Express Yourself</p><h1 class="page-title">Writing</h1></div>
+    </header>
+    <div class="resource-grid">
+      <div class="card">
+        <h2 class="card-title">Free Tools</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://languagetool.org" target="_blank"><span class="res-icon">▶</span><div><strong>LanguageTool.org</strong><p>Free grammar and style checker for French. Paste your writing here daily.</p></div></a>
+          <a class="resource-item" href="https://www.italki.com/notebook" target="_blank"><span class="res-icon">▶</span><div><strong>iTalki Notebook</strong><p>Post your writing — native speakers correct it for free.</p></div></a>
+          <a class="resource-item" href="https://www.bonpatron.com" target="_blank"><span class="res-icon">▶</span><div><strong>BonPatron</strong><p>French-specific grammar checker. Good for Quebec French.</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">TCF Writing Formats to Master</h2>
+        <ul class="format-list">
+          <li><strong>Lettre formelle</strong> — complaint, request, application (180–220 words)</li>
+          <li><strong>Courriel formel</strong> — professional email format</li>
+          <li><strong>Article de blog / opinion</strong> — thesis + 2-3 arguments + conclusion</li>
+          <li><strong>Compte-rendu</strong> — summary of a document or situation</li>
+          <li><strong>Synthèse</strong> — C1: synthesize 2-3 source documents</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Writing Prompt Bank</h2>
+        <div id="writing-prompts"></div>
+        <button class="btn-secondary" id="new-prompt-btn">New Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPEAKING PAGE -->
+  <div class="page" id="page-speaking">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Find Your Voice</p><h1 class="page-title">Speaking</h1></div>
+    </header>
+    <div class="resource-grid">
+      <div class="card">
+        <h2 class="card-title">Free Practice Resources</h2>
+        <div class="resource-list">
+          <a class="resource-item" href="https://www.pimsleur.com" target="_blank"><span class="res-icon">▶</span><div><strong>Pimsleur (via Libby/Library)</strong><p>Free with library card. Audio-only, forces speaking. Level 1–2 for Phase 1.</p></div></a>
+          <a class="resource-item" href="https://www.italki.com/community/french" target="_blank"><span class="res-icon">▶</span><div><strong>iTalki — Language Partners</strong><p>Find free language exchange partners. Trade French for English.</p></div></a>
+          <a class="resource-item" href="https://www.tandem.net" target="_blank"><span class="res-icon">▶</span><div><strong>Tandem App</strong><p>Free language exchange app. Match with French native speakers.</p></div></a>
+          <a class="resource-item" href="https://www.speaky.com" target="_blank"><span class="res-icon">▶</span><div><strong>Speaky</strong><p>Free language exchange community. Good for async voice messages.</p></div></a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">TCF Speaking Topics</h2>
+        <div id="speaking-topics"></div>
+        <button class="btn-secondary" id="new-topic-btn">Next Topic</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOCK EXAMS PAGE -->
+  <div class="page" id="page-exams">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Test Yourself</p><h1 class="page-title">Mock Exams</h1></div>
+    </header>
+    <div class="card">
+      <h2 class="card-title">Free Official & Semi-Official Resources</h2>
+      <div class="resource-list">
+        <a class="resource-item" href="https://www.lefrancaisdesaffaires.fr/tests-diplomes/test-tef/" target="_blank"><span class="res-icon">▶</span><div><strong>TEF Official Sample Tests</strong><p>Official TEF practice materials. Download free sample questions.</p></div></a>
+        <a class="resource-item" href="https://www.france-langue.fr/tests/test-de-francais/" target="_blank"><span class="res-icon">▶</span><div><strong>France Langue — Level Test</strong><p>Free 40-question diagnostic test. Use to benchmark every 5 days.</p></div></a>
+        <a class="resource-item" href="https://testfrancais.ciep.fr" target="_blank"><span class="res-icon">▶</span><div><strong>CIEP — TCF Sample Tests</strong><p>Official TCF preparation materials and sample listening/reading sets.</p></div></a>
+        <a class="resource-item" href="https://www.youtube.com/results?search_query=TCF+Canada+preparation" target="_blank"><span class="res-icon">▶</span><div><strong>YouTube — TCF Canada Prep</strong><p>Search for "TCF Canada preparation" — dozens of free mock sessions.</p></div></a>
+        <a class="resource-item" href="https://archive.org/search?query=TCF+francais" target="_blank"><span class="res-icon">▶</span><div><strong>Internet Archive — TCF Books</strong><p>Scanned copies of CLE International TCF prep books. Free to read online.</p></div></a>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">Quick Reading Comprehension Mini-Test</h2>
+      <div id="mini-test-container"></div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">CLB Score Mapping</h2>
+      <div class="clb-table-wrap">
+        <table class="clb-table">
+          <thead><tr><th>CEFR Level</th><th>CLB Equivalent</th><th>TCF Score Range</th><th>Your Target</th></tr></thead>
+          <tbody>
+            <tr><td>A1</td><td>CLB 1–2</td><td>100–199</td><td></td></tr>
+            <tr><td>A2</td><td>CLB 3–4</td><td>200–299</td><td></td></tr>
+            <tr><td>B1</td><td>CLB 5–6</td><td>300–399</td><td></td></tr>
+            <tr class="target-row"><td>B2</td><td>CLB 7–8</td><td>400–499</td><td>✦ Floor Target</td></tr>
+            <tr><td>C1</td><td>CLB 9–10</td><td>500–599</td><td>✦ Stretch Goal</td></tr>
+            <tr><td>C2</td><td>CLB 11–12</td><td>600–699</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS PAGE -->
+  <div class="page" id="page-progress">
+    <header class="page-header">
+      <div><p class="page-eyebrow">Track Everything</p><h1 class="page-title">Progress</h1></div>
+    </header>
+    <div class="two-col">
+      <div class="card">
+        <h2 class="card-title">Log Today's Score</h2>
+        <div class="score-form">
+          <label>Reading (0–100)</label>
+          <input type="number" id="score-reading" min="0" max="100" placeholder="e.g. 72">
+          <label>Writing (0–100)</label>
+          <input type="number" id="score-writing" min="0" max="100" placeholder="e.g. 65">
+          <label>Listening (0–100)</label>
+          <input type="number" id="score-listening" min="0" max="100" placeholder="e.g. 68">
+          <label>Speaking (0–100)</label>
+          <input type="number" id="score-speaking" min="0" max="100" placeholder="e.g. 60">
+          <button class="btn-primary" id="save-scores-btn">Save Scores</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Score History</h2>
+        <div id="score-history" class="score-history"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="card-title">Skill Radar</h2>
+      <canvas id="radar-chart" width="400" height="300"></canvas>
+    </div>
+    <div class="card">
+      <h2 class="card-title">Notes & Reflections</h2>
+      <textarea id="daily-notes" placeholder="What did you study today? What was hard? What clicked?" rows="5"></textarea>
+      <button class="btn-secondary" id="save-notes-btn" style="margin-top:12px">Save Notes</button>
+      <div id="notes-history" style="margin-top:16px"></div>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
